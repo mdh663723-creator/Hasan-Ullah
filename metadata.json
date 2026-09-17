@@ -1,0 +1,6 @@
+{
+  "name": "Professional Portfolio",
+  "description": "A modern and professional portfolio website featuring project showcases with links and interactive contact options in a white and sky-blue gradient aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* After Effects CC Light Sweep - Ultra-slim shaped corner sheen */
+@keyframes cornerDiagonalLightSweep {
+  0% {
+    transform: translate(-120%, -120%) rotate(42deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(45%, 45%) rotate(42deg);
+    opacity: 0.95;
+  }
+  80% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate(220%, 220%) rotate(42deg);
+    opacity: 0;
+  }
+}
+
+.animate-corner-cc-light {
+  animation: cornerDiagonalLightSweep 4.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-corner-cc-light-fast {
+  animation: cornerDiagonalLightSweep 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Subtle corner ambient glint */
+@keyframes cornerGlintPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.15);
+  }
+}
+
+.animate-corner-glint {
+  animation: cornerGlintPulse 3s ease-in-out infinite;
+}
+
+/* Subtle corner light cone sheen */
+@keyframes cornerConeSheen {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-corner-cone {
+  animation: cornerConeSheen 4.5s ease-in-out infinite;
+}
