@@ -53,6 +53,12 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                         src={profile.avatarUrl}
                         alt={profile.name}
                         referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (target.src && !target.src.endsWith('/watermark.jpg')) {
+                            target.src = '/watermark.jpg';
+                          }
+                        }}
                         className="w-full h-full object-cover rounded-[14px]"
                       />
                     ) : (

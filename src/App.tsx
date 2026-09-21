@@ -16,6 +16,7 @@ import { Footer } from './components/Footer';
 import { ProjectModal } from './components/ProjectModal';
 import { AddProjectModal } from './components/AddProjectModal';
 import { WatermarkBackground } from './components/WatermarkBackground';
+import { CursorLight } from './components/CursorLight';
 
 export default function App() {
   const [profile, setProfile] = useState<UserProfile>(() => {
@@ -24,11 +25,11 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && parsed.name) {
-          // If user uploaded a custom data URL, keep it, otherwise empty
-          if (parsed.avatarUrl && parsed.avatarUrl.startsWith('data:image')) {
+          // If user uploaded a custom data URL or valid permanent asset path, keep it; otherwise use USER_PROFILE.avatarUrl
+          if (parsed.avatarUrl && (parsed.avatarUrl.startsWith('data:image') || parsed.avatarUrl.includes('profile') || parsed.avatarUrl.includes('watermark') || parsed.avatarUrl.startsWith('/'))) {
             return { ...USER_PROFILE, ...parsed };
           }
-          return { ...USER_PROFILE, ...parsed, avatarUrl: '' };
+          return { ...USER_PROFILE, ...parsed, avatarUrl: USER_PROFILE.avatarUrl };
         }
       }
     } catch {
@@ -39,12 +40,59 @@ export default function App() {
 
   const [projects, setProjects] = useState<Project[]>(() => {
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v5') || localStorage.getItem('portfolio_user_projects_v4');
+      const saved = localStorage.getItem('portfolio_user_projects_v7') || localStorage.getItem('portfolio_user_projects_v6') || localStorage.getItem('portfolio_user_projects_v5');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Heal any project where image was pasted as an iframe or Behance URL
+          // Heal projects and sync YouTube Shorts & Behance graphic design showcase
           const healed = parsed.map((p: Project) => {
+            if (
+              p.id === 'proj-behance-graphic-255795753' ||
+              p.id === 'proj-g1' ||
+              p.videoUrl?.includes('255795753') ||
+              p.liveUrl?.includes('255795753')
+            ) {
+              return {
+                ...p,
+                id: 'proj-behance-graphic-255795753',
+                title: 'Creative Visual Identity & Graphic Design Showcase',
+                category: 'graphic',
+                categoryLabel: 'Graphic Design',
+                description: 'Featured Behance graphic design project by Hasanullah: modern visual brand identity concepts, custom typography hierarchy, elegant color harmony, and professional presentation mockups.',
+                image: '/projects/graphic-design-showcase.jpg',
+                videoUrl: 'https://www.behance.net/embed/project/255795753?ilo0=1',
+                tags: ['Adobe Photoshop', 'Adobe Illustrator', 'Brand Identity', 'Visual Design', 'Behance Showcase'],
+                toolsUsed: ['Photoshop', 'Illustrator'],
+                liveUrl: 'https://www.behance.net/gallery/255795753',
+                featured: true,
+                aspectRatio: 'landscape',
+                metrics: 'Featured on Behance • Visual Identity'
+              };
+            }
+
+            if (
+              p.id === 'proj-v1' ||
+              p.videoUrl?.includes('mixkit-set-of-plateaus') ||
+              p.title?.includes('Viral Instagram Reels')
+            ) {
+              return {
+                ...p,
+                id: 'proj-v1',
+                title: 'GHORER HAT - Viral Short Video Edit',
+                category: 'video',
+                categoryLabel: 'Video Editing',
+                description: 'Professional high-retention short-form video edit for GHORER HAT: dynamic jump cuts, engaging pacing, sound effects, motion graphics, and color grading for viral audience engagement.',
+                image: 'https://i.ytimg.com/vi/QfCVneftIaI/hqdefault.jpg',
+                videoUrl: 'https://youtube.com/shorts/QfCVneftIaI?si=tkCVVqQ8aK62nnSD',
+                tags: ['YouTube Shorts', 'Premiere Pro', 'CapCut Pro', 'Viral Reels', 'Sound Design'],
+                toolsUsed: ['Premiere Pro', 'After Effects', 'CapCut'],
+                liveUrl: 'https://youtube.com/shorts/QfCVneftIaI?si=tkCVVqQ8aK62nnSD',
+                featured: true,
+                aspectRatio: 'portrait',
+                metrics: '90%+ Retention • YouTube Shorts'
+              };
+            }
+
             if (
               p.id === 'proj-behance-shoe' ||
               p.image?.includes('255584833') ||
@@ -76,8 +124,15 @@ export default function App() {
           // Ensure shoe mockup project is present
           const hasShoe = healed.some((p: Project) => p.id === 'proj-behance-shoe' || p.image === '/projects/shoe-mockup.webp');
           if (!hasShoe) {
-            return [INITIAL_PROJECTS[0], ...healed];
+            healed.unshift(INITIAL_PROJECTS[0]);
           }
+
+          // Ensure Behance graphic design 255795753 is present
+          const hasGraphic2557 = healed.some((p: Project) => p.id === 'proj-behance-graphic-255795753' || p.videoUrl?.includes('255795753'));
+          if (!hasGraphic2557) {
+            healed.splice(1, 0, INITIAL_PROJECTS[1]);
+          }
+
           return healed;
         }
       }
@@ -94,7 +149,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v5', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v7', JSON.stringify(projects));
     } catch {
       // ignore
     }
@@ -161,6 +216,9 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen flex flex-col bg-slate-50 text-slate-800 font-['Plus_Jakarta_Sans',sans-serif]">
+      {/* Interactive Cursor Light Effect that radiates circular glow when mouse moves */}
+      <CursorLight />
+
       {/* Motion Graphics Watermark Background that subtly zooms as user scrolls */}
       <WatermarkBackground customImageUrl={profile.avatarUrl || '/watermark.jpg'} />
 

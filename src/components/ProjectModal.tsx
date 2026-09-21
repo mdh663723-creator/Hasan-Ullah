@@ -20,6 +20,13 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   // Helper to detect if media is YouTube, Vimeo, or Behance embed
   const getEmbedUrl = (url?: string) => {
     if (!url) return null;
+    if (url.includes('youtube.com/shorts/')) {
+      const id = url.split('youtube.com/shorts/')[1]?.split('?')[0]?.split('/')[0];
+      return id ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0` : null;
+    }
+    if (url.includes('youtube.com/embed/')) {
+      return url;
+    }
     if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
       const videoId = url.includes('youtu.be/')
         ? url.split('youtu.be/')[1]?.split('?')[0]
@@ -43,6 +50,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   const embedUrl = getEmbedUrl(project.videoUrl);
   const isDirectVideo = project.videoUrl && !embedUrl;
   const isBehanceEmbed = embedUrl?.includes('behance.net');
+  const isShorts = project.videoUrl?.includes('shorts') || project.aspectRatio === 'portrait';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-900/65 backdrop-blur-md animate-fadeIn">
@@ -88,8 +96,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   allow={isBehanceEmbed ? "clipboard-write" : "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"}
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
-                  className={`border-0 rounded-2xl shadow-xl bg-slate-900 ${
-                    isBehanceEmbed
+                  className={`border-0 rounded-2xl shadow-2xl bg-slate-900 ${
+                    isShorts
+                      ? "w-full max-w-[320px] sm:max-w-[340px] aspect-[9/16] h-[480px] sm:h-[530px]"
+                      : isBehanceEmbed
                       ? "w-full max-w-[540px] h-[340px]"
                       : "w-full aspect-video"
                   }`}

@@ -65,6 +65,32 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
       }
     }
 
+    // Check if Behance 255795753 (Creative Graphic Design Showcase)
+    if (clean.includes('255795753')) {
+      setImage('/projects/graphic-design-showcase.jpg');
+      setDetectedBehance(true);
+      if (!title || title.trim() === '') {
+        setTitle('Creative Visual Identity & Graphic Design Showcase');
+      }
+      setCategory('graphic');
+      if (!liveUrl) {
+        setLiveUrl('https://www.behance.net/gallery/255795753');
+      }
+      if (!videoUrl) {
+        setVideoUrl('https://www.behance.net/embed/project/255795753?ilo0=1');
+      }
+      if (!toolsInput) {
+        setToolsInput('Photoshop, Illustrator');
+      }
+      if (!tagsInput) {
+        setTagsInput('Brand Identity, Visual Design, Adobe Illustrator, Adobe Photoshop, Behance Showcase');
+      }
+      if (!metrics) {
+        setMetrics('Featured on Behance • Visual Identity');
+      }
+      return;
+    }
+
     // Check if Behance 255584833 (Hasan's Shoe Mockup Design)
     if (clean.includes('255584833') || clean.toLowerCase().includes('shoz') || clean.toLowerCase().includes('shoe')) {
       setImage('/projects/shoe-mockup.webp');

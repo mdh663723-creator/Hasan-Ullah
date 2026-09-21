@@ -1,10 +1,11 @@
 import { Project, SkillCategory, UserProfile } from '../types';
+import profilePhoto from '../assets/images/profile.jpg';
 
 export const USER_PROFILE: UserProfile = {
   name: 'Hasan Ullah',
   title: 'Graphic Designer & Video Editor',
   tagline: 'Creative Graphic Designer and Video Editor with 1 year of dedicated experience crafting high-CTR YouTube thumbnails, viral Reels & Shorts, modern brand identity suites, and AI automation workflows.',
-  avatarUrl: '',
+  avatarUrl: profilePhoto || '/profile.jpg',
   email: 'mdh663723@gmail.com',
   location: 'Available Worldwide • Remote & Relocation',
   availability: 'Open for Freelance & Full-time Roles',
@@ -37,33 +38,34 @@ export const INITIAL_PROJECTS: Project[] = [
     metrics: 'Commercial Ad • Photorealistic Mockup'
   },
   {
-    id: 'proj-g1',
-    title: 'Minimalist Brand Identity & Logo Suite',
+    id: 'proj-behance-graphic-255795753',
+    title: 'Creative Visual Identity & Graphic Design Showcase',
     category: 'graphic',
     categoryLabel: 'Graphic Design',
-    description: 'Complete brand identity package featuring modern minimalist vector logo, brand style guidelines, color palettes, business cards, and stationery designs with a clean aesthetic.',
-    image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=900&q=80',
-    tags: ['Adobe Illustrator', 'Brand Identity', 'Logo Design', 'Vector Art'],
-    toolsUsed: ['Illustrator', 'Photoshop'],
-    liveUrl: 'https://www.behance.net',
+    description: 'Featured Behance graphic design project by Hasanullah: modern visual brand identity concepts, custom typography hierarchy, elegant color harmony, and professional presentation mockups.',
+    image: '/projects/graphic-design-showcase.jpg',
+    videoUrl: 'https://www.behance.net/embed/project/255795753?ilo0=1',
+    tags: ['Adobe Photoshop', 'Adobe Illustrator', 'Brand Identity', 'Visual Design', 'Behance Showcase'],
+    toolsUsed: ['Photoshop', 'Illustrator'],
+    liveUrl: 'https://www.behance.net/gallery/255795753',
     featured: true,
     aspectRatio: 'landscape',
-    metrics: 'Modern Vector • 100% Scalable'
+    metrics: 'Featured on Behance • Visual Identity'
   },
   {
     id: 'proj-v1',
-    title: 'Viral Instagram Reels & Shorts Dynamic Edits',
+    title: 'GHORER HAT - Viral Short Video Edit',
     category: 'video',
     categoryLabel: 'Video Editing',
-    description: 'High-retention short-form video editing: fast-paced jump cuts, custom motion typography, sound design (SFX), pop-up graphics, and color grading for maximum audience engagement.',
-    image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-sky-in-a-sunset-26070-large.mp4',
-    tags: ['Adobe Premiere Pro', 'CapCut Pro', 'Viral Reels', 'Sound Design'],
+    description: 'Professional high-retention short-form video edit for GHORER HAT: dynamic jump cuts, engaging pacing, sound effects, motion graphics, and color grading for viral audience engagement.',
+    image: 'https://i.ytimg.com/vi/QfCVneftIaI/hqdefault.jpg',
+    videoUrl: 'https://youtube.com/shorts/QfCVneftIaI?si=tkCVVqQ8aK62nnSD',
+    tags: ['YouTube Shorts', 'Premiere Pro', 'CapCut Pro', 'Viral Reels', 'Sound Design'],
     toolsUsed: ['Premiere Pro', 'After Effects', 'CapCut'],
-    liveUrl: 'https://www.youtube.com',
+    liveUrl: 'https://youtube.com/shorts/QfCVneftIaI?si=tkCVVqQ8aK62nnSD',
     featured: true,
     aspectRatio: 'portrait',
-    metrics: '90%+ Audience Retention Rate'
+    metrics: '90%+ Retention • YouTube Shorts'
   },
   {
     id: 'proj-g2',

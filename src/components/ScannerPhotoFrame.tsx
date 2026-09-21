@@ -133,6 +133,12 @@ export const ScannerPhotoFrame: React.FC<ScannerPhotoFrameProps> = ({
               src={imageUrl}
               alt={name}
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (target.src && !target.src.endsWith('/watermark.jpg')) {
+                  target.src = '/watermark.jpg';
+                }
+              }}
               className={`w-full h-full object-cover object-top transition-transform duration-700 ease-out ${
                 isHovered ? 'scale-105' : 'scale-100'
               }`}
