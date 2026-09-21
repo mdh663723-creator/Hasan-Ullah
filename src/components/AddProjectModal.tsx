@@ -215,24 +215,24 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-900/65 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md animate-fadeIn">
       <div
-        className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border-2 border-sky-150 p-6 sm:p-8 my-8"
+        className="relative w-full max-w-xl bg-slate-950 rounded-3xl shadow-2xl border-2 border-slate-800 p-6 sm:p-8 my-8 text-slate-100"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-sky-100">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
           <div>
-            <h3 className="text-xl font-extrabold text-slate-900">
+            <h3 className="text-xl font-extrabold text-white">
               {initialProject ? 'Edit Project' : 'Add New Project'}
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               Add or update graphic design, video editing, or AI automation projects
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -242,7 +242,7 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
         <form onSubmit={handleSubmit} className="mt-5 space-y-4">
           {/* Project Title */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
               Project Title *
             </label>
             <input
@@ -251,20 +251,20 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Minimalist Brand Logo & Social Banners or Viral Reels Edit"
-              className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 text-slate-800"
+              className="w-full px-3.5 py-2.5 text-sm bg-slate-900 border border-slate-700 rounded-xl focus:bg-slate-950 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-900/40 text-white placeholder-slate-500"
             />
           </div>
 
           {/* Category & Live Link */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
                 Category *
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as ProjectCategory)}
-                className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 text-slate-800 font-semibold"
+                className="w-full px-3 py-2.5 text-sm bg-slate-900 border border-slate-700 rounded-xl focus:bg-slate-950 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-900/40 text-white font-semibold"
               >
                 <option value="graphic">🎨 Graphic Design</option>
                 <option value="video">🎬 Video Editing</option>
@@ -274,11 +274,11 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
                 Live Link / Behance / YouTube *
               </label>
               <div className="relative">
-                <LinkIcon className="w-4 h-4 text-sky-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <LinkIcon className="w-4 h-4 text-sky-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   required
@@ -291,7 +291,7 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
                     }
                   }}
                   placeholder="https://behance.net/gallery/... or YouTube link"
-                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 text-slate-800"
+                  className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-900 border border-slate-700 rounded-xl focus:bg-slate-950 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-900/40 text-white placeholder-slate-500"
                 />
               </div>
             </div>
@@ -299,17 +299,17 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
 
           {/* Video / Embed URL */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
               Interactive Embed / Video URL (Behance, YouTube, Vimeo, MP4)
             </label>
             <div className="relative">
-              <Video className="w-4 h-4 text-purple-500 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Video className="w-4 h-4 text-purple-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={videoUrl}
                 onChange={(e) => handleImageOrEmbedInput(e.target.value)}
                 placeholder="https://www.behance.net/embed/project/... or YouTube embed / iframe"
-                className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 text-slate-800"
+                className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-900 border border-slate-700 rounded-xl focus:bg-slate-950 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-900/40 text-white placeholder-slate-500"
               />
             </div>
             <p className="text-[11px] text-slate-400 mt-1">
@@ -320,13 +320,13 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
           {/* Cover Image / Poster URL with File Upload & Live Preview */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
                 Design Photo / Cover Image *
               </label>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-600 hover:text-sky-700 bg-sky-50 hover:bg-sky-100 px-2.5 py-1 rounded-lg border border-sky-200 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-400 hover:text-sky-300 bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 transition-colors"
               >
                 <Upload className="w-3.5 h-3.5" />
                 <span>Upload From Device</span>
@@ -342,27 +342,27 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
             />
 
             <div className="relative">
-              <Image className="w-4 h-4 text-sky-500 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Image className="w-4 h-4 text-sky-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={image}
                 onChange={(e) => handleImageOrEmbedInput(e.target.value)}
                 placeholder="Paste image URL, Behance iframe embed code, or click Upload above"
-                className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 text-slate-800"
+                className="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-900 border border-slate-700 rounded-xl focus:bg-slate-950 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-900/40 text-white placeholder-slate-500"
               />
             </div>
 
             {/* Behance Recognized Alert */}
             {detectedBehance && (
-              <div className="mt-2.5 px-3 py-2 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2 text-xs text-emerald-800 font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <div className="mt-2.5 px-3 py-2 bg-emerald-950/60 border border-emerald-800 rounded-xl flex items-center gap-2 text-xs text-emerald-300 font-semibold">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Behance project detected: High-res shoe advertisement design photo linked!</span>
               </div>
             )}
 
             {/* Image Preview Box */}
             {image && (
-              <div className="mt-2.5 p-3 rounded-2xl bg-sky-50/80 border border-sky-200 flex items-center justify-between gap-3">
+              <div className="mt-2.5 p-3 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 overflow-hidden">
                   <img
                     src={image}
@@ -371,14 +371,14 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = '/projects/shoe-mockup.webp';
                     }}
-                    className="w-16 h-12 rounded-lg object-cover border border-sky-300 shadow-xs shrink-0"
+                    className="w-16 h-12 rounded-lg object-cover border border-slate-700 shadow-xs shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-xs font-bold text-sky-950 flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span className="text-xs font-bold text-sky-400 flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       Design Photo Active
                     </span>
-                    <p className="text-[11px] text-slate-500 truncate max-w-[220px] sm:max-w-xs">
+                    <p className="text-[11px] text-slate-400 truncate max-w-[220px] sm:max-w-xs">
                       {image.startsWith('data:') ? 'Custom uploaded device image' : image}
                     </p>
                   </div>
@@ -389,7 +389,7 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
                     setImage('');
                     setDetectedBehance(false);
                   }}
-                  className="text-xs font-bold text-slate-500 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-white transition-colors shrink-0"
+                  className="text-xs font-bold text-slate-400 hover:text-red-400 px-2 py-1 rounded-lg hover:bg-slate-800 transition-colors shrink-0"
                 >
                   Clear
                 </button>
@@ -400,7 +400,7 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
           {/* Tools Used & Metrics */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
                 Tools Used
               </label>
               <input
@@ -408,12 +408,12 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
                 value={toolsInput}
                 onChange={(e) => setToolsInput(e.target.value)}
                 placeholder="Photoshop, Premiere Pro, Illustrator"
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 text-slate-800"
+                className="w-full px-3.5 py-2.5 text-sm bg-slate-900 border border-slate-700 rounded-xl focus:bg-slate-950 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-900/40 text-white placeholder-slate-500"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
                 Highlights / Metric
               </label>
               <input
@@ -421,14 +421,14 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
                 value={metrics}
                 onChange={(e) => setMetrics(e.target.value)}
                 placeholder="e.g. 14% CTR Boost • 4K 60FPS"
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 text-slate-800"
+                className="w-full px-3.5 py-2.5 text-sm bg-slate-900 border border-slate-700 rounded-xl focus:bg-slate-950 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-900/40 text-white placeholder-slate-500"
               />
             </div>
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
               Project Overview
             </label>
             <textarea
@@ -436,16 +436,16 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Briefly describe the design goals, target audience, and results..."
-              className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100 text-slate-800 resize-none"
+              className="w-full px-3.5 py-2.5 text-sm bg-slate-900 border border-slate-700 rounded-xl focus:bg-slate-950 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-900/40 text-white placeholder-slate-500 resize-none"
             />
           </div>
 
           {/* Modal Actions */}
-          <div className="pt-4 border-t border-sky-100 flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors"
+              className="px-5 py-2.5 rounded-xl text-sm font-bold text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
             >
               Cancel
             </button>

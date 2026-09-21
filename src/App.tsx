@@ -126,12 +126,12 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-slate-50 text-slate-800 font-['Plus_Jakarta_Sans',sans-serif]">
-      {/* Interactive Cursor Light Effect that radiates circular glow when mouse moves */}
+    <div className="relative min-h-screen flex flex-col bg-black text-slate-100 font-['Plus_Jakarta_Sans',sans-serif]">
+      {/* Interactive Cursor Light Effect that radiates gentle focused glow right at mouse pointer */}
       <CursorLight />
 
-      {/* Motion Graphics Watermark Background that subtly zooms as user scrolls */}
-      <WatermarkBackground customImageUrl={profile.avatarUrl || '/watermark.jpg'} />
+      {/* Motion Graphics Watermark Background that zooms smoothly from small to large as user scrolls */}
+      <WatermarkBackground customImageUrl="/watermark-character.png" />
 
       {/* Top Navigation with Hasanullah Brand Logo & Photo */}
       <Navbar

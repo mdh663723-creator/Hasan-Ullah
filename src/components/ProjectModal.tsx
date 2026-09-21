@@ -57,9 +57,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   const isShorts = project.videoUrl?.includes('shorts') || project.videoUrl?.includes('reel') || isFacebookEmbed || project.aspectRatio === 'portrait';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-900/65 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md animate-fadeIn">
       <div
-        className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border-2 border-sky-150 overflow-hidden my-8"
+        className="relative w-full max-w-3xl bg-slate-950 rounded-3xl shadow-2xl border-2 border-slate-800 overflow-hidden my-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Bar with Close and Edit */}
@@ -70,7 +70,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 onEditProject(project);
               }}
               type="button"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md text-xs font-bold transition-all shadow-md"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/90 text-white backdrop-blur-md text-xs font-bold transition-all shadow-md border border-white/10"
               title="Edit project details"
             >
               <Edit3 className="w-3.5 h-3.5" />
@@ -82,7 +82,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             onClick={onClose}
             type="button"
             id="modal-close-btn"
-            className="p-2 rounded-full bg-black/60 hover:bg-black/85 text-white backdrop-blur-md transition-colors shadow-md"
+            className="p-2 rounded-full bg-black/70 hover:bg-black/90 text-white backdrop-blur-md transition-colors shadow-md border border-white/10"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -90,10 +90,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
         </div>
 
         {/* Media Container: Video Player / Interactive Embed OR Image Preview */}
-        <div className="relative w-full bg-slate-950 flex items-center justify-center overflow-hidden">
+        <div className="relative w-full bg-black flex items-center justify-center overflow-hidden">
           {project.videoUrl && activeTab === 'media' ? (
             embedUrl ? (
-              <div className="w-full flex items-center justify-center bg-slate-950 p-2 sm:p-4">
+              <div className="w-full flex items-center justify-center bg-black p-2 sm:p-4">
                 <iframe
                   src={embedUrl}
                   title={project.title}
@@ -133,7 +133,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               </div>
             )
           ) : (
-            <div className="relative h-72 sm:h-96 w-full overflow-hidden bg-slate-900 flex items-center justify-center">
+            <div className="relative h-72 sm:h-96 w-full overflow-hidden bg-slate-950 flex items-center justify-center">
               <img
                 src={project.image}
                 alt={project.title}
@@ -149,7 +149,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
           {/* Toggle Media / Poster if Video or Embed exists */}
           {project.videoUrl && (
-            <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 p-1 rounded-xl bg-black/70 backdrop-blur-md border border-white/20">
+            <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 p-1 rounded-xl bg-black/80 backdrop-blur-md border border-white/20">
               <button
                 type="button"
                 onClick={() => setActiveTab('media')}
@@ -179,25 +179,25 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           {/* Category & Title */}
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-sky-100 text-sky-800 border border-sky-200 shadow-2xs">
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-slate-900 text-sky-400 border border-slate-700 shadow-sm">
                 {project.categoryLabel}
               </span>
               {project.videoUrl && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-800 border border-purple-200">
-                  <Video className="w-3 h-3 text-purple-600" />
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-purple-950 text-purple-300 border border-purple-800">
+                  <Video className="w-3 h-3 text-purple-400" />
                   Video Project
                 </span>
               )}
             </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               {project.title}
             </h3>
           </div>
 
           {/* Key highlights / metrics */}
           {project.metrics && (
-            <div className="flex items-center gap-2 p-3.5 bg-sky-50 border border-sky-200 rounded-xl text-xs sm:text-sm font-bold text-sky-900">
-              <Sparkles className="w-4 h-4 text-sky-600 shrink-0" />
+            <div className="flex items-center gap-2 p-3.5 bg-slate-900 border border-slate-800 rounded-xl text-xs sm:text-sm font-bold text-sky-300">
+              <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />
               <span>{project.metrics}</span>
             </div>
           )}
@@ -207,7 +207,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
               Project Overview
             </h4>
-            <p className="text-slate-700 leading-relaxed text-sm sm:text-base">
+            <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
               {project.description}
             </p>
           </div>
@@ -221,9 +221,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               {(project.toolsUsed && project.toolsUsed.length > 0 ? project.toolsUsed : project.tags).map((tag, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1.5 text-xs font-bold text-sky-800 bg-sky-50 border border-sky-200 rounded-lg flex items-center gap-1.5"
+                  className="px-3 py-1.5 text-xs font-bold text-sky-300 bg-sky-950/60 border border-sky-800/60 rounded-lg flex items-center gap-1.5"
                 >
-                  <CheckCircle2 className="w-3.5 h-3.5 text-sky-600" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-sky-400" />
                   {tag}
                 </span>
               ))}
@@ -231,7 +231,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           </div>
 
           {/* Direct CTA Buttons */}
-          <div className="pt-5 border-t border-sky-100 flex flex-wrap items-center gap-3">
+          <div className="pt-5 border-t border-slate-800 flex flex-wrap items-center gap-3">
             <a
               href={project.liveUrl}
               target="_blank"
@@ -247,9 +247,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               <button
                 onClick={() => onEditProject(project)}
                 type="button"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-bold text-slate-300 bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-colors"
               >
-                <Edit3 className="w-4 h-4 text-slate-600" />
+                <Edit3 className="w-4 h-4 text-sky-400" />
                 <span>Edit Project</span>
               </button>
             )}
@@ -257,7 +257,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             <button
               onClick={onClose}
               type="button"
-              className="px-5 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors"
+              className="px-5 py-3 rounded-xl text-sm font-bold text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
             >
               Close
             </button>

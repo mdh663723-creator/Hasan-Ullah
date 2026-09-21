@@ -95,9 +95,9 @@ export const SocialIconsBar: React.FC<SocialIconsProps> = ({ profile, variant = 
       id: 'twitter',
       name: 'Twitter / X',
       url: twitterUrl,
-      color: 'text-slate-900',
-      hoverBg: 'hover:bg-slate-900/10 hover:border-slate-900/40',
-      borderColor: 'border-slate-300',
+      color: 'text-slate-100',
+      hoverBg: 'hover:bg-slate-800 hover:border-slate-500',
+      borderColor: 'border-slate-700',
       icon: <TwitterIcon className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
     }
   ];
@@ -113,10 +113,10 @@ export const SocialIconsBar: React.FC<SocialIconsProps> = ({ profile, variant = 
             rel="noopener noreferrer"
             id={`contact-social-${item.id}`}
             aria-label={`Open ${item.name} profile`}
-            className={`group inline-flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white border ${item.borderColor} ${item.color} ${item.hoverBg} shadow-2xs hover:shadow-md transition-all duration-200 active:scale-95`}
+            className={`group inline-flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-900 border ${item.borderColor} ${item.color} ${item.hoverBg} shadow-2xs hover:shadow-lg transition-all duration-200 active:scale-95`}
           >
             {item.icon}
-            <span className="text-xs font-bold text-slate-700 group-hover:text-slate-900">
+            <span className="text-xs font-bold text-slate-300 group-hover:text-white">
               {item.name}
             </span>
           </a>
@@ -127,16 +127,16 @@ export const SocialIconsBar: React.FC<SocialIconsProps> = ({ profile, variant = 
 
   // Hero variant - prominent, centered right in the middle below intro
   return (
-    <div className="w-full my-6 p-3 sm:p-4 rounded-2xl bg-white/80 backdrop-blur-md border border-sky-200 shadow-lg shadow-sky-500/5">
+    <div className="w-full my-6 p-3 sm:p-4 rounded-2xl bg-slate-950/80 backdrop-blur-md border border-slate-800 shadow-xl shadow-black/40">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <span className="flex h-2.5 w-2.5 rounded-full bg-[#1877F2] animate-pulse" />
-          <span className="text-xs sm:text-sm font-bold text-slate-800 tracking-tight">
+          <span className="text-xs sm:text-sm font-bold text-slate-200 tracking-tight">
             Connect Directly • Social Profiles:
           </span>
         </div>
 
-        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-2.5">
+        <div className="flex items-center justify-center flex-wrap gap-2.5 sm:gap-3">
           {socialLinks.map((item) => (
             <a
               key={item.id}
@@ -145,10 +145,22 @@ export const SocialIconsBar: React.FC<SocialIconsProps> = ({ profile, variant = 
               rel="noopener noreferrer"
               id={`hero-social-${item.id}`}
               title={`Visit Hasanullah's ${item.name}`}
-              className={`group relative flex items-center justify-center p-2.5 sm:px-3.5 sm:py-2.5 rounded-xl bg-white border ${item.borderColor} ${item.color} ${item.hoverBg} shadow-xs hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 active:scale-95`}
+              className={`group relative overflow-hidden flex items-center justify-center p-3 sm:px-4 sm:py-3 rounded-2xl bg-slate-900 border ${item.borderColor} ${item.color} ${item.hoverBg} shadow-xs hover:shadow-2xl transition-all duration-300 hover:scale-125 hover:-translate-y-1.5 active:scale-95 z-10 hover:z-30`}
             >
-              {item.icon}
-              <span className="hidden md:inline-block ml-2 text-xs font-bold text-slate-700 group-hover:text-slate-900">
+              {/* Radiating Light Aura on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-sky-400/0 via-white/0 to-cyan-400/0 group-hover:from-sky-400/20 group-hover:via-white/20 group-hover:to-cyan-400/20 transition-all duration-300 pointer-events-none rounded-2xl" />
+
+              {/* Surface Light Sweep Flare */}
+              <div className="absolute inset-0 -translate-x-full group-hover:animate-hover-light-sweep bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+
+              {/* Outer Neon Glow Ring */}
+              <div className="absolute -inset-1 rounded-2xl bg-current opacity-0 group-hover:opacity-40 blur-md transition-opacity duration-300 pointer-events-none" />
+
+              <span className="relative z-10 transition-transform duration-300 group-hover:scale-115 filter group-hover:drop-shadow-[0_0_10px_rgba(56,189,248,0.9)]">
+                {item.icon}
+              </span>
+
+              <span className="hidden md:inline-block ml-2 text-xs font-bold text-slate-300 group-hover:text-white relative z-10">
                 {item.name}
               </span>
             </a>

@@ -59,3 +59,27 @@
 .animate-corner-cone {
   animation: cornerConeSheen 4.5s ease-in-out infinite;
 }
+
+/* Shimmer light sweep for tools and social icons on hover */
+@keyframes lightSweepHover {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.animate-hover-light-sweep {
+  animation: lightSweepHover 1.2s ease-in-out infinite;
+}
+
+/* Neon text glowing pulse */
+.hover-text-glow {
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-text-glow:hover {
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.75), 0 0 32px rgba(99, 102, 241, 0.5), 0 0 48px rgba(14, 165, 233, 0.35);
+}
+
