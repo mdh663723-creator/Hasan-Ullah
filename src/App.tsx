@@ -25,8 +25,8 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && parsed.name) {
-          // If user uploaded a custom data URL or valid permanent asset path, keep it; otherwise use USER_PROFILE.avatarUrl
-          if (parsed.avatarUrl && (parsed.avatarUrl.startsWith('data:image') || parsed.avatarUrl.includes('profile') || parsed.avatarUrl.includes('watermark') || parsed.avatarUrl.startsWith('/'))) {
+          // If user uploaded a custom data URL, keep it; otherwise use the updated USER_PROFILE.avatarUrl
+          if (parsed.avatarUrl && parsed.avatarUrl.startsWith('data:image')) {
             return { ...USER_PROFILE, ...parsed };
           }
           return { ...USER_PROFILE, ...parsed, avatarUrl: USER_PROFILE.avatarUrl };
