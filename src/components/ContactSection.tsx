@@ -69,7 +69,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   return (
     <section
       id="contact"
-      className="py-20 sm:py-24 bg-gradient-to-b from-black via-slate-950 to-black relative overflow-hidden"
+      className="py-20 sm:py-24 bg-gradient-to-b from-transparent via-slate-950/60 to-transparent relative overflow-hidden"
     >
       {/* Decorative ambient gradient glows */}
       <div

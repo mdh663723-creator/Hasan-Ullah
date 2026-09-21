@@ -35,7 +35,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
   ];
 
   return (
-    <section id="about" className="py-20 sm:py-24 bg-black relative">
+    <section id="about" className="py-20 sm:py-24 bg-gradient-to-b from-transparent via-black/40 to-transparent relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column: Visual Profile Card of Hasanullah */}

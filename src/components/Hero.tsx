@@ -32,7 +32,7 @@ export const Hero: React.FC<HeroProps> = ({ profile, onViewShowcase, onUpdateAva
   return (
     <section
       id="home"
-      className="relative overflow-hidden pt-8 pb-20 md:pt-16 md:pb-28 bg-gradient-to-b from-black via-slate-950 to-black"
+      className="relative overflow-hidden pt-8 pb-20 md:pt-16 md:pb-28 bg-gradient-to-b from-black/60 via-slate-950/50 to-transparent"
     >
       {/* Dynamic Soft Ambient Lighting Orbs tuned for dark black background */}
       <div

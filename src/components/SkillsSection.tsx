@@ -29,7 +29,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ categories }) => {
   ];
 
   return (
-    <section id="skills" className="py-20 sm:py-24 bg-gradient-to-b from-black via-slate-950 to-black relative">
+    <section id="skills" className="py-20 sm:py-24 bg-gradient-to-b from-transparent via-slate-950/50 to-transparent relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">

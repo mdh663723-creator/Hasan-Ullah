@@ -48,7 +48,7 @@ export const Showcase: React.FC<ShowcaseProps> = ({
   }, [projects, selectedCategory, searchQuery]);
 
   return (
-    <section id="showcase" className="py-20 sm:py-24 bg-gradient-to-b from-black via-slate-950 to-black relative">
+    <section id="showcase" className="py-20 sm:py-24 bg-gradient-to-b from-transparent via-slate-950/60 to-transparent relative">
       {/* Background visual accents */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sky-500/40 to-transparent" />
       <div

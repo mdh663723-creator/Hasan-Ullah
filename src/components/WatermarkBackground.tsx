@@ -13,10 +13,10 @@ export const WatermarkBackground: React.FC<WatermarkBackgroundProps> = ({
   const watermarkSrc = customImageUrl || '/watermark-character.png';
   const [opacityLevel, setOpacityLevel] = useState<number>(() => {
     try {
-      const saved = localStorage.getItem('portfolio_watermark_opacity_v4');
-      return saved ? parseFloat(saved) : 0.20;
+      const saved = localStorage.getItem('portfolio_watermark_opacity_v5');
+      return saved ? parseFloat(saved) : 0.65;
     } catch {
-      return 0.20;
+      return 0.65;
     }
   });
 
@@ -27,7 +27,7 @@ export const WatermarkBackground: React.FC<WatermarkBackgroundProps> = ({
   const { scrollYProgress } = useScroll();
 
   // Scroll zoom animation: starts wide and expands majestically across the screen as user scrolls down
-  const rawScale = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [0.95, 1.15, 1.38, 1.6]);
+  const rawScale = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [1.0, 1.18, 1.35, 1.55]);
   const smoothScale = useSpring(rawScale, {
     stiffness: 90,
     damping: 25,
@@ -38,7 +38,7 @@ export const WatermarkBackground: React.FC<WatermarkBackgroundProps> = ({
   const rawOpacity = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    [opacityLevel * 0.9, opacityLevel, opacityLevel * 1.15]
+    [opacityLevel * 0.95, opacityLevel, opacityLevel * 1.05]
   );
   const smoothOpacity = useSpring(rawOpacity, {
     stiffness: 85,
@@ -55,7 +55,7 @@ export const WatermarkBackground: React.FC<WatermarkBackgroundProps> = ({
   // Save opacity preference
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_watermark_opacity_v4', opacityLevel.toString());
+      localStorage.setItem('portfolio_watermark_opacity_v5', opacityLevel.toString());
     } catch {
       // ignore
     }
@@ -83,11 +83,11 @@ export const WatermarkBackground: React.FC<WatermarkBackgroundProps> = ({
               src={watermarkSrc}
               alt="Hasan Ullah Watermark"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center select-none filter drop-shadow-[0_0_24px_rgba(56,189,248,0.2)] opacity-35"
+              className="w-full h-full object-cover object-center select-none filter contrast-125 brightness-110 drop-shadow-[0_0_30px_rgba(56,189,248,0.25)]"
               style={{
-                // Gentle vignette mask so it fades smoothly into the deep dark canvas
-                maskImage: 'radial-gradient(ellipse 95% 90% at 50% 50%, black 75%, rgba(0,0,0,0.5) 90%, transparent 100%)',
-                WebkitMaskImage: 'radial-gradient(ellipse 95% 90% at 50% 50%, black 75%, rgba(0,0,0,0.5) 90%, transparent 100%)'
+                // Subtle vignette mask so it blends smoothly without clipping out the character
+                maskImage: 'radial-gradient(ellipse 100% 95% at 50% 50%, black 80%, rgba(0,0,0,0.7) 92%, transparent 100%)',
+                WebkitMaskImage: 'radial-gradient(ellipse 100% 95% at 50% 50%, black 80%, rgba(0,0,0,0.7) 92%, transparent 100%)'
               }}
               onError={(e) => {
                 const target = e.currentTarget as HTMLImageElement;
@@ -110,9 +110,9 @@ export const WatermarkBackground: React.FC<WatermarkBackgroundProps> = ({
             </span>
             <input
               type="range"
-              min="0.10"
-              max="0.70"
-              step="0.02"
+              min="0.15"
+              max="0.95"
+              step="0.05"
               value={opacityLevel}
               onChange={(e) => setOpacityLevel(parseFloat(e.target.value))}
               className="w-24 accent-sky-400 cursor-pointer"
