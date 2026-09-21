@@ -40,100 +40,11 @@ export default function App() {
 
   const [projects, setProjects] = useState<Project[]>(() => {
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v7') || localStorage.getItem('portfolio_user_projects_v6') || localStorage.getItem('portfolio_user_projects_v5');
+      const saved = localStorage.getItem('portfolio_user_projects_v9');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Heal projects and sync YouTube Shorts & Behance graphic design showcase
-          const healed = parsed.map((p: Project) => {
-            if (
-              p.id === 'proj-behance-graphic-255795753' ||
-              p.id === 'proj-g1' ||
-              p.videoUrl?.includes('255795753') ||
-              p.liveUrl?.includes('255795753')
-            ) {
-              return {
-                ...p,
-                id: 'proj-behance-graphic-255795753',
-                title: 'Creative Visual Identity & Graphic Design Showcase',
-                category: 'graphic',
-                categoryLabel: 'Graphic Design',
-                description: 'Featured Behance graphic design project by Hasanullah: modern visual brand identity concepts, custom typography hierarchy, elegant color harmony, and professional presentation mockups.',
-                image: '/projects/graphic-design-showcase.jpg',
-                videoUrl: 'https://www.behance.net/embed/project/255795753?ilo0=1',
-                tags: ['Adobe Photoshop', 'Adobe Illustrator', 'Brand Identity', 'Visual Design', 'Behance Showcase'],
-                toolsUsed: ['Photoshop', 'Illustrator'],
-                liveUrl: 'https://www.behance.net/gallery/255795753',
-                featured: true,
-                aspectRatio: 'landscape',
-                metrics: 'Featured on Behance • Visual Identity'
-              };
-            }
-
-            if (
-              p.id === 'proj-v1' ||
-              p.videoUrl?.includes('mixkit-set-of-plateaus') ||
-              p.title?.includes('Viral Instagram Reels')
-            ) {
-              return {
-                ...p,
-                id: 'proj-v1',
-                title: 'GHORER HAT - Viral Short Video Edit',
-                category: 'video',
-                categoryLabel: 'Video Editing',
-                description: 'Professional high-retention short-form video edit for GHORER HAT: dynamic jump cuts, engaging pacing, sound effects, motion graphics, and color grading for viral audience engagement.',
-                image: 'https://i.ytimg.com/vi/QfCVneftIaI/hqdefault.jpg',
-                videoUrl: 'https://youtube.com/shorts/QfCVneftIaI?si=tkCVVqQ8aK62nnSD',
-                tags: ['YouTube Shorts', 'Premiere Pro', 'CapCut Pro', 'Viral Reels', 'Sound Design'],
-                toolsUsed: ['Premiere Pro', 'After Effects', 'CapCut'],
-                liveUrl: 'https://youtube.com/shorts/QfCVneftIaI?si=tkCVVqQ8aK62nnSD',
-                featured: true,
-                aspectRatio: 'portrait',
-                metrics: '90%+ Retention • YouTube Shorts'
-              };
-            }
-
-            if (
-              p.id === 'proj-behance-shoe' ||
-              p.image?.includes('255584833') ||
-              p.image?.includes('<iframe') ||
-              p.liveUrl?.includes('255584833') ||
-              p.videoUrl?.includes('255584833') ||
-              p.title?.toLowerCase().includes('shoe') ||
-              p.title?.toLowerCase().includes('shoz')
-            ) {
-              return {
-                ...p,
-                id: 'proj-behance-shoe',
-                title: 'Premier Shoes Advertisement & Mockup Design',
-                category: 'graphic',
-                categoryLabel: 'Graphic Design',
-                description: 'Professional commercial shoe advertisement poster and photorealistic product mockup crafted in Adobe Photoshop. Features dynamic studio lighting, crisp product shadows, promotional typography, and high-impact brand visual aesthetics.',
-                image: '/projects/shoe-mockup.webp',
-                videoUrl: 'https://www.behance.net/embed/project/255584833?ilo0=1',
-                liveUrl: 'https://www.behance.net/gallery/255584833/Shoz-Muckup-Design',
-                tags: ['Adobe Photoshop', 'Shoe Mockup', 'Product Advertisement', 'Commercial Graphic', 'Photo Manipulation'],
-                toolsUsed: ['Photoshop', 'Illustrator'],
-                featured: true,
-                metrics: 'Commercial Ad • Photorealistic Mockup'
-              };
-            }
-            return p;
-          });
-
-          // Ensure shoe mockup project is present
-          const hasShoe = healed.some((p: Project) => p.id === 'proj-behance-shoe' || p.image === '/projects/shoe-mockup.webp');
-          if (!hasShoe) {
-            healed.unshift(INITIAL_PROJECTS[0]);
-          }
-
-          // Ensure Behance graphic design 255795753 is present
-          const hasGraphic2557 = healed.some((p: Project) => p.id === 'proj-behance-graphic-255795753' || p.videoUrl?.includes('255795753'));
-          if (!hasGraphic2557) {
-            healed.splice(1, 0, INITIAL_PROJECTS[1]);
-          }
-
-          return healed;
+          return parsed;
         }
       }
     } catch {
@@ -149,7 +60,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v7', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v9', JSON.stringify(projects));
     } catch {
       // ignore
     }
@@ -194,7 +105,7 @@ export default function App() {
   const handleResetProjects = () => {
     setProjects(INITIAL_PROJECTS);
     try {
-      localStorage.setItem('portfolio_user_projects_v4', JSON.stringify(INITIAL_PROJECTS));
+      localStorage.setItem('portfolio_user_projects_v9', JSON.stringify(INITIAL_PROJECTS));
     } catch {
       // ignore
     }

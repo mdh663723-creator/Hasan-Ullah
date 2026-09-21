@@ -44,13 +44,17 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
       const match = url.match(/gallery\/(\d+)/);
       return match ? `https://www.behance.net/embed/project/${match[1]}?ilo0=1` : null;
     }
+    if (url.includes('facebook.com/reel/') || url.includes('facebook.com/watch') || url.includes('/videos/')) {
+      return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&t=0`;
+    }
     return null;
   };
 
   const embedUrl = getEmbedUrl(project.videoUrl);
   const isDirectVideo = project.videoUrl && !embedUrl;
   const isBehanceEmbed = embedUrl?.includes('behance.net');
-  const isShorts = project.videoUrl?.includes('shorts') || project.aspectRatio === 'portrait';
+  const isFacebookEmbed = embedUrl?.includes('facebook.com');
+  const isShorts = project.videoUrl?.includes('shorts') || project.videoUrl?.includes('reel') || isFacebookEmbed || project.aspectRatio === 'portrait';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-slate-900/65 backdrop-blur-md animate-fadeIn">
@@ -93,12 +97,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 <iframe
                   src={embedUrl}
                   title={project.title}
-                  allow={isBehanceEmbed ? "clipboard-write" : "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"}
+                  allow={isBehanceEmbed ? "clipboard-write" : "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"}
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                   className={`border-0 rounded-2xl shadow-2xl bg-slate-900 ${
                     isShorts
-                      ? "w-full max-w-[320px] sm:max-w-[340px] aspect-[9/16] h-[480px] sm:h-[530px]"
+                      ? "w-full max-w-[320px] sm:max-w-[350px] aspect-[9/16] h-[480px] sm:h-[550px]"
                       : isBehanceEmbed
                       ? "w-full max-w-[540px] h-[340px]"
                       : "w-full aspect-video"
