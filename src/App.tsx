@@ -54,7 +54,7 @@ export default function App() {
       'proj-vid-social-retention'
     ];
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v20');
+      const saved = localStorage.getItem('portfolio_user_projects_v21');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -74,7 +74,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v20', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v21', JSON.stringify(projects));
     } catch {
       // ignore
     }

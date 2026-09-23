@@ -206,6 +206,21 @@ export const INITIAL_PROJECTS: Project[] = [
 
   // --- Video Editing & Reels ---
   {
+    id: 'proj-yt-vp4gklgxoau',
+    title: 'Official Motion Graphics & Video Editing Showreel',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'Official motion graphics and dynamic video editing showreel showcasing creative highlights, 2D/3D kinetic animation, seamless scene transitions, cinematic color grading, sound design, and commercial visual effects edited by Md Hasan.',
+    image: '/projects/motion-graphics-showreel.jpg',
+    videoUrl: 'https://youtu.be/VP4GKLGXoaU',
+    tags: ['Showreel', 'Motion Graphics', 'Video Editing', 'After Effects', 'Premiere Pro', 'Visual Effects'],
+    toolsUsed: ['After Effects', 'Premiere Pro', 'Audition'],
+    liveUrl: 'https://youtu.be/VP4GKLGXoaU',
+    featured: true,
+    aspectRatio: 'landscape',
+    metrics: 'Official Showreel • Full HD'
+  },
+  {
     id: 'proj-yt-fxlexkmsxlg',
     title: '3D Motion Graphics & Spatial Visual Effects',
     category: 'video',
