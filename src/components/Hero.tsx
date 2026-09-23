@@ -67,8 +67,8 @@ export const Hero: React.FC<HeroProps> = ({ profile, onViewShowcase, onUpdateAva
             {/* Main Headline with Interactive Cursor Zoom & Radiant Light Glow */}
             <div className="group/hero-title inline-block cursor-pointer transition-all duration-500 hover:scale-105 origin-center lg:origin-left mb-6 p-2 -m-2 rounded-2xl hover:bg-slate-900/60 hover:backdrop-blur-xs">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.14] transition-all duration-300">
-                <span className="inline-block transition-all duration-300 group-hover/hero-title:text-sky-400 group-hover/hero-title:drop-shadow-[0_0_20px_rgba(56,189,248,0.85)]">
-                  Hi, I'm{' '}
+                <span className="inline-block mr-3 sm:mr-4 transition-all duration-300 group-hover/hero-title:text-sky-400 group-hover/hero-title:drop-shadow-[0_0_20px_rgba(56,189,248,0.85)]">
+                  Hi, I'm
                 </span>
                 <span className="relative inline-block bg-gradient-to-r from-sky-400 via-sky-300 to-blue-400 bg-clip-text text-transparent underline decoration-sky-400/80 decoration-wavy decoration-2 transition-all duration-300 group-hover/hero-title:drop-shadow-[0_0_28px_rgba(56,189,248,0.95)]">
                   {profile.name}

@@ -95,11 +95,11 @@ export const Showcase: React.FC<ShowcaseProps> = ({
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
               Graphic Design &{' '}
               <span className="bg-gradient-to-r from-purple-400 via-sky-400 to-blue-400 bg-clip-text text-transparent">
-                Video Editing Works
+                Video Editing
               </span>
             </h2>
-            <p className="text-slate-300 mt-3 max-w-2xl text-base sm:text-lg leading-relaxed">
-              Explore branding logos, social media posters, high-CTR YouTube thumbnails, viral Reels/Shorts, and AI automation workflows. Click any project to inspect full details or play video.
+            <p className="text-slate-400 mt-2.5 max-w-xl text-sm sm:text-base leading-relaxed">
+              Explore branding, thumbnails, motion graphics, and video editing works.
             </p>
           </div>
 
@@ -342,32 +342,32 @@ export const Showcase: React.FC<ShowcaseProps> = ({
 
                   {/* Bottom Image Metrics overlay */}
                   {project.metrics && (
-                    <div className="absolute bottom-3 left-4 right-4 text-xs font-semibold text-sky-300 truncate flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+                    <div className="absolute bottom-2.5 left-3.5 right-3.5 text-[11px] font-medium text-slate-300 truncate flex items-center gap-1.5 opacity-90">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
                       <span>{project.metrics}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Card Body */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
                     {/* Project Title */}
-                    <h3 className="text-xl font-extrabold text-white group-hover:text-sky-400 transition-colors line-clamp-1">
+                    <h3 className="text-lg font-bold text-white group-hover:text-sky-400 transition-colors line-clamp-1">
                       {project.title}
                     </h3>
 
                     {/* Project Description */}
-                    <p className="mt-2.5 text-sm text-slate-300 line-clamp-2 leading-relaxed">
+                    <p className="mt-1.5 text-xs sm:text-sm text-slate-400 line-clamp-2 leading-relaxed">
                       {project.description}
                     </p>
 
                     {/* Tools / Software Pills */}
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {(project.toolsUsed && project.toolsUsed.length > 0 ? project.toolsUsed : project.tags).slice(0, 4).map((tool, idx) => (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {(project.toolsUsed && project.toolsUsed.length > 0 ? project.toolsUsed : project.tags).slice(0, 3).map((tool, idx) => (
                         <span
                           key={idx}
-                          className="px-2.5 py-1 text-xs font-bold text-sky-300 bg-sky-950/60 border border-sky-800/60 rounded-lg group-hover:bg-sky-900/60 transition-colors"
+                          className="px-2 py-0.5 text-[11px] font-medium text-slate-300 bg-slate-900 border border-slate-800 rounded-md group-hover:border-slate-700 transition-colors"
                         >
                           {tool}
                         </span>
@@ -377,7 +377,7 @@ export const Showcase: React.FC<ShowcaseProps> = ({
 
                   {/* Action Link Buttons */}
                   <div
-                    className="mt-6 pt-5 border-t border-slate-800 flex items-center justify-between gap-2.5"
+                    className="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between gap-2.5"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {/* Primary Live Link Button */}
@@ -386,12 +386,12 @@ export const Showcase: React.FC<ShowcaseProps> = ({
                       target="_blank"
                       rel="noopener noreferrer"
                       id={`project-live-btn-${project.id}`}
-                      className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-white bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-md shadow-sky-500/20 hover:shadow-sky-500/40 transition-all hover:scale-102 active:scale-98"
+                      className="flex-1 inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-sm transition-all hover:scale-101 active:scale-98"
                     >
                       {project.category === 'video' ? (
                         <>
                           <Play className="w-3.5 h-3.5 fill-white" />
-                          <span>Watch / Link</span>
+                          <span>Watch Video</span>
                         </>
                       ) : (
                         <>

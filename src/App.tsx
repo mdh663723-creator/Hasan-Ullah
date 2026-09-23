@@ -25,11 +25,12 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && parsed.name) {
+          const updatedName = parsed.name === 'Hasan Ullah' ? 'Hasanullah' : parsed.name;
           // If user uploaded a custom data URL, keep it; otherwise use the updated USER_PROFILE.avatarUrl
           if (parsed.avatarUrl && parsed.avatarUrl.startsWith('data:image')) {
-            return { ...USER_PROFILE, ...parsed };
+            return { ...USER_PROFILE, ...parsed, name: updatedName };
           }
-          return { ...USER_PROFILE, ...parsed, avatarUrl: USER_PROFILE.avatarUrl };
+          return { ...USER_PROFILE, ...parsed, name: updatedName, tagline: USER_PROFILE.tagline, avatarUrl: USER_PROFILE.avatarUrl };
         }
       }
     } catch {
@@ -54,7 +55,7 @@ export default function App() {
       'proj-vid-social-retention'
     ];
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v21');
+      const saved = localStorage.getItem('portfolio_user_projects_v22');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -74,7 +75,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v21', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v22', JSON.stringify(projects));
     } catch {
       // ignore
     }
