@@ -39,18 +39,19 @@ export default function App() {
   });
 
   const [projects, setProjects] = useState<Project[]>(() => {
+    const deletedIds = ['proj-ai1', 'proj-v3', 'proj-ai2'];
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v9');
+      const saved = localStorage.getItem('portfolio_user_projects_v11') || localStorage.getItem('portfolio_user_projects_v9');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
+          return parsed.filter((p: Project) => !deletedIds.includes(p.id));
         }
       }
     } catch {
       // ignore
     }
-    return INITIAL_PROJECTS;
+    return INITIAL_PROJECTS.filter((p: Project) => !deletedIds.includes(p.id));
   });
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -60,7 +61,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v9', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v11', JSON.stringify(projects));
     } catch {
       // ignore
     }

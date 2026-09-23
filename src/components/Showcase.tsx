@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { ExternalLink, Github, Eye, Plus, Search, Filter, Sparkles, Layers, Trash2, ArrowUpRight, Play, Edit3, Film, Palette, RefreshCw } from 'lucide-react';
+import { ExternalLink, Github, Eye, Plus, Search, Filter, Sparkles, Layers, Trash2, ArrowUpRight, Play, Edit3, Film, Palette, RefreshCw, FolderOpen } from 'lucide-react';
 import { Project, ProjectCategory } from '../types';
+import { GraphicDesignCircularGallery } from './GraphicDesignCircularGallery';
 
 interface ShowcaseProps {
   projects: Project[];
@@ -30,22 +31,45 @@ export const Showcase: React.FC<ShowcaseProps> = ({
     { id: 'web', label: 'Web & Digital', icon: '🌐', color: 'from-blue-500 to-indigo-600' }
   ];
 
-  const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
-      const matchesCategory =
-        selectedCategory === 'all' || project.category === selectedCategory;
+  // Separate graphic design projects from other projects
+  const graphicProjects = useMemo(() => {
+    return projects.filter((p) => p.category === 'graphic');
+  }, [projects]);
 
-      const q = searchQuery.toLowerCase().trim();
-      if (!q) return matchesCategory;
+  const nonGraphicProjects = useMemo(() => {
+    return projects.filter((p) => p.category !== 'graphic');
+  }, [projects]);
 
+  // Filtered graphic design projects for search
+  const filteredGraphicProjects = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return graphicProjects;
+    return graphicProjects.filter((project) => {
       const titleMatch = project.title.toLowerCase().includes(q);
       const descMatch = project.description.toLowerCase().includes(q);
       const tagMatch = project.tags.some((tag) => tag.toLowerCase().includes(q));
       const toolMatch = project.toolsUsed?.some((tool) => tool.toLowerCase().includes(q));
-
-      return matchesCategory && (titleMatch || descMatch || tagMatch || toolMatch);
+      return titleMatch || descMatch || tagMatch || toolMatch;
     });
-  }, [projects, selectedCategory, searchQuery]);
+  }, [graphicProjects, searchQuery]);
+
+  // Projects shown in standard grid (for 'all' without loose graphics, or other categories)
+  const gridProjects = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    const sourceList = selectedCategory === 'all'
+      ? nonGraphicProjects
+      : projects.filter((p) => p.category === selectedCategory);
+
+    if (!q) return sourceList;
+
+    return sourceList.filter((project) => {
+      const titleMatch = project.title.toLowerCase().includes(q);
+      const descMatch = project.description.toLowerCase().includes(q);
+      const tagMatch = project.tags.some((tag) => tag.toLowerCase().includes(q));
+      const toolMatch = project.toolsUsed?.some((tool) => tool.toLowerCase().includes(q));
+      return titleMatch || descMatch || tagMatch || toolMatch;
+    });
+  }, [projects, nonGraphicProjects, selectedCategory, searchQuery]);
 
   return (
     <section id="showcase" className="py-20 sm:py-24 bg-gradient-to-b from-transparent via-slate-950/60 to-transparent relative">
@@ -116,7 +140,12 @@ export const Showcase: React.FC<ShowcaseProps> = ({
           <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
             {categories.map((cat) => {
               const active = selectedCategory === cat.id;
-              const count = cat.id === 'all' ? projects.length : projects.filter(p => p.category === cat.id).length;
+              const count =
+                cat.id === 'all'
+                  ? nonGraphicProjects.length
+                  : cat.id === 'graphic'
+                  ? graphicProjects.length
+                  : projects.filter((p) => p.category === cat.id).length;
               return (
                 <button
                   key={cat.id}
@@ -163,31 +192,65 @@ export const Showcase: React.FC<ShowcaseProps> = ({
           </div>
         </div>
 
-        {/* Project Grid */}
-        {filteredProjects.length === 0 ? (
-          <div className="py-20 text-center bg-slate-900/60 rounded-3xl border-2 border-dashed border-slate-800 shadow-md">
-            <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400">
-              <Filter className="w-7 h-7" />
+        {/* View Mode: Graphic Design Circular Showcase OR Standard Grid */}
+        {selectedCategory === 'graphic' ? (
+          filteredGraphicProjects.length === 0 ? (
+            <div className="py-20 text-center bg-slate-900/60 rounded-3xl border-2 border-dashed border-slate-800 shadow-md">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400">
+                <Filter className="w-7 h-7" />
+              </div>
+              <p className="text-lg font-bold text-white">
+                কোনো গ্রাফিক্স ডিজাইন পাওয়া যায়নি
+              </p>
+              <p className="text-sm text-slate-400 mt-1.5 max-w-sm mx-auto">
+                অন্য কোনো কি-ওয়ার্ড দিয়ে খুঁজুন অথবা ফিল্টার রিসেট করুন।
+              </p>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="mt-5 px-5 py-2 text-xs font-bold text-sky-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-colors"
+              >
+                সার্চ রিসেট করুন
+              </button>
             </div>
-            <p className="text-lg font-bold text-white">
-              No matching projects found
-            </p>
-            <p className="text-sm text-slate-400 mt-1.5 max-w-sm mx-auto">
-              Try adjusting your search criteria or switch categories. You can also add a new custom project!
-            </p>
-            <button
-              onClick={() => {
+          ) : (
+            <GraphicDesignCircularGallery
+              projects={filteredGraphicProjects}
+              onOpenProjectModal={onOpenProjectModal}
+              onEditProject={onEditProject}
+              onDeleteCustomProject={onDeleteCustomProject}
+              onBackToAll={() => {
                 setSelectedCategory('all');
                 setSearchQuery('');
               }}
-              className="mt-5 px-5 py-2 text-xs font-bold text-sky-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-colors"
-            >
-              Reset Filters
-            </button>
-          </div>
+            />
+          )
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
+          /* Standard Grid for All Projects & other categories */
+          gridProjects.length === 0 ? (
+            <div className="py-20 text-center bg-slate-900/60 rounded-3xl border-2 border-dashed border-slate-800 shadow-md">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400">
+                <Filter className="w-7 h-7" />
+              </div>
+              <p className="text-lg font-bold text-white">
+                No matching projects found
+              </p>
+              <p className="text-sm text-slate-400 mt-1.5 max-w-sm mx-auto">
+                Try adjusting your search criteria or switch categories. You can also add a new custom project!
+              </p>
+              <button
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setSearchQuery('');
+                }}
+                className="mt-5 px-5 py-2 text-xs font-bold text-sky-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-colors"
+              >
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Projects (Video Editing, Web, etc.) */}
+              {gridProjects.map((project) => (
               <div
                 key={project.id}
                 id={`project-card-${project.id}`}
@@ -364,7 +427,8 @@ export const Showcase: React.FC<ShowcaseProps> = ({
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          )
         )}
       </div>
     </section>

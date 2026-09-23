@@ -249,49 +249,6 @@ export const INITIAL_PROJECTS: Project[] = [
     featured: true,
     aspectRatio: 'landscape',
     metrics: '4K 60FPS • Cinematic Master'
-  },
-  {
-    id: 'proj-ai1',
-    title: 'AI Video Captioning & Auto-Repurposing Pipeline',
-    category: 'ai-automation',
-    categoryLabel: 'AI Automation',
-    description: 'AI-automated content repurposing pipeline: automatically extracting engaging short clips from long-form podcasts, generating synced subtitles, and optimizing multi-platform distribution.',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80',
-    tags: ['AI Automation', 'n8n Workflow', 'Whisper AI', 'Auto Captions'],
-    toolsUsed: ['n8n', 'OpenAI Whisper', 'CapCut AI'],
-    liveUrl: 'https://github.com',
-    featured: true,
-    aspectRatio: 'landscape',
-    metrics: '10x Faster Content Turnaround'
-  },
-  {
-    id: 'proj-v3',
-    title: 'Motion Graphics Title Intro & Lower Thirds',
-    category: 'video',
-    categoryLabel: 'Video Editing',
-    description: 'Custom motion graphics intros, logo animations, and modern lower-thirds pack for YouTube creators and corporate presentations.',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80',
-    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-screen-close-up-1728-large.mp4',
-    tags: ['After Effects', 'Motion Graphics', 'Logo Animation', 'VFX'],
-    toolsUsed: ['After Effects', 'Illustrator'],
-    liveUrl: 'https://www.youtube.com',
-    featured: false,
-    aspectRatio: 'landscape',
-    metrics: 'Custom 60FPS Motion Presets'
-  },
-  {
-    id: 'proj-ai2',
-    title: 'AI Generative Graphics & Smart Prompts Studio',
-    category: 'ai-automation',
-    categoryLabel: 'AI Automation',
-    description: 'High-fidelity concept art, photorealistic product backgrounds, and commercial vector assets powered by Midjourney v6 and DALL-E 3 prompt engineering.',
-    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=900&q=80',
-    tags: ['Midjourney', 'Prompt Engineering', 'Generative AI', 'Photoshop'],
-    toolsUsed: ['Midjourney v6', 'Photoshop Beta', 'ChatGPT'],
-    liveUrl: 'https://www.discord.com',
-    featured: false,
-    aspectRatio: 'landscape',
-    metrics: 'Photorealistic AI Concept Art'
   }
 ];
 
