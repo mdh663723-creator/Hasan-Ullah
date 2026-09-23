@@ -39,9 +39,22 @@ export default function App() {
   });
 
   const [projects, setProjects] = useState<Project[]>(() => {
-    const deletedIds = ['proj-ai1', 'proj-v3', 'proj-ai2'];
+    const deletedIds = [
+      'proj-ai1',
+      'proj-v3',
+      'proj-ai2',
+      'proj-vid-corp-motion',
+      'proj-vid-brain-concept',
+      'proj-vid-quote-typography',
+      'proj-vid-hasan-portfolio',
+      'proj-vid-send-button-ui',
+      'proj-vid-pendulum-logo',
+      'proj-vid-perfume-commercial',
+      'proj-vid-cinematic-portrait',
+      'proj-vid-social-retention'
+    ];
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v11') || localStorage.getItem('portfolio_user_projects_v9');
+      const saved = localStorage.getItem('portfolio_user_projects_v16');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -61,7 +74,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v11', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v16', JSON.stringify(projects));
     } catch {
       // ignore
     }

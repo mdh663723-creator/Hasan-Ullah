@@ -206,6 +206,36 @@ export const INITIAL_PROJECTS: Project[] = [
 
   // --- Video Editing & Reels ---
   {
+    id: 'proj-yt-shorts-8upfyu0rk78',
+    title: 'Nazmul Huda Sir - AI Video & Dynamic Motion Reel',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'High-impact AI video synthesis and motion graphics reel featuring Nazmul Huda Sir. Engineered with dynamic visual pacing, seamless Adobe After Effects linked composition transitions, custom sound design, and viral short-form retention.',
+    image: '/projects/nazmul-huda-ai-video.jpg',
+    videoUrl: 'https://youtube.com/shorts/8upfYu0RK78?si=4lXqIPjQYjfTSHXm',
+    tags: ['YouTube Shorts', 'AI Video', 'After Effects', 'Dynamic Reel', 'Motion Graphics'],
+    toolsUsed: ['After Effects', 'Premiere Pro', 'AI Video Tools'],
+    liveUrl: 'https://youtube.com/shorts/8upfYu0RK78?si=4lXqIPjQYjfTSHXm',
+    featured: true,
+    aspectRatio: 'portrait',
+    metrics: '9:16 Portrait • YouTube Shorts'
+  },
+  {
+    id: 'proj-yt-mtmnygofn3w',
+    title: 'আপনি যদি স্কিল আপ করতে চান তাহলে এই ভিডিও আপনার জন্য',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'ভিডিও এডিটিং, ডিজিটাল স্কিল ডেভেলপমেন্ট ও প্রফেশনাল ক্যারিয়ার গ্রোথ নিয়ে তৈরি বিশেষ এডুকেশনাল ভিডিও প্রজেক্ট। এতে নিখুঁত স্টোরিটেলিং, সাউন্ড ব্যালান্সিং, কালার কারেকশন ও হাই-এনগেজমেন্ট ভিডিও এডিটিং টেকনিক উপস্থাপন করা হয়েছে।',
+    image: '/projects/skill-up-video-editing.jpg',
+    videoUrl: 'https://youtu.be/mTmNygofN3w?si=y5kKv00TZ9BJwXIo',
+    tags: ['YouTube Video', 'Skill Development', 'Video Editing', 'Premiere Pro', 'Content Creation'],
+    toolsUsed: ['Premiere Pro', 'After Effects', 'Audition'],
+    liveUrl: 'https://youtu.be/mTmNygofN3w?si=y5kKv00TZ9BJwXIo',
+    featured: true,
+    aspectRatio: 'landscape',
+    metrics: 'HD 1080p • YouTube'
+  },
+  {
     id: 'proj-fb-reel-1574049600322124',
     title: 'After Effects & Premiere Pro Motion Graphics Reel',
     category: 'video',

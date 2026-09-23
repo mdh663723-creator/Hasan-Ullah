@@ -273,12 +273,12 @@ export const Showcase: React.FC<ShowcaseProps> = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent opacity-85 group-hover:opacity-90 transition-opacity" />
 
                   {/* If video or interactive project, show Media Button Overlay */}
-                  {project.videoUrl && (
+                  {(project.videoUrl || project.category === 'video') && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <div className={`w-13 h-13 rounded-2xl bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-all ${
-                        project.videoUrl.includes('behance') ? 'group-hover:bg-sky-600/95' : 'group-hover:bg-purple-600/90'
+                        project.videoUrl?.includes('behance') ? 'group-hover:bg-sky-600/95' : 'group-hover:bg-purple-600/90'
                       }`}>
-                        {project.videoUrl.includes('behance') ? (
+                        {project.videoUrl?.includes('behance') ? (
                           <Sparkles className="w-6 h-6 text-white" />
                         ) : (
                           <Play className="w-6 h-6 fill-white ml-0.5" />

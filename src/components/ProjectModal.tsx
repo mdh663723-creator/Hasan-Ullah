@@ -133,7 +133,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               </div>
             )
           ) : (
-            <div className="relative h-72 sm:h-96 w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+            <div className={`relative w-full overflow-hidden bg-slate-950 flex items-center justify-center ${
+              project.aspectRatio === 'portrait' ? 'h-[460px] sm:h-[540px] p-3' : 'h-72 sm:h-96'
+            }`}>
               <img
                 src={project.image}
                 alt={project.title}
@@ -141,7 +143,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/projects/shoe-mockup.webp';
                 }}
-                className="w-full h-full object-contain sm:object-cover"
+                className={`max-w-full max-h-full rounded-2xl shadow-2xl ${
+                  project.aspectRatio === 'portrait' ? 'object-contain' : 'w-full h-full object-cover'
+                }`}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none" />
             </div>
