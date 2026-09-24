@@ -24,12 +24,14 @@ interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
   onEditProject?: (project: Project) => void;
+  isAdmin?: boolean;
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({
   project,
   onClose,
-  onEditProject
+  onEditProject,
+  isAdmin = false
 }) => {
   const [activeTab, setActiveTab] = useState<'media' | 'poster'>('media');
   const [isTheater, setIsTheater] = useState(false);
@@ -212,13 +214,13 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               )}
             </button>
 
-            {/* Edit Project Button (if authorized) */}
-            {onEditProject && (
+            {/* Edit Project Button (Admin Only) */}
+            {isAdmin && onEditProject && (
               <button
                 onClick={() => onEditProject(project)}
                 type="button"
                 className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-semibold transition-colors border border-slate-700"
-                title="Edit Project"
+                title="Edit Project (Admin Only)"
               >
                 <Edit3 className="w-3.5 h-3.5 text-sky-400" />
                 <span className="hidden sm:inline">Edit</span>

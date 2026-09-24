@@ -6,11 +6,13 @@ import { FacebookIcon } from './SocialIcons';
 interface NavbarProps {
   profile: UserProfile;
   onOpenAddProject: () => void;
+  isAdmin?: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   profile,
-  onOpenAddProject
+  onOpenAddProject,
+  isAdmin = false
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -116,17 +118,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Behance</span>
             </a>
 
-            {/* Add Project to Showcase Button */}
-            <button
-              onClick={onOpenAddProject}
-              id="nav-add-project-btn"
-              type="button"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-sky-300 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 rounded-xl shadow-2xs transition-all hover:scale-102 active:scale-98"
-              title="Add a custom project with live link"
-            >
-              <Plus className="w-3.5 h-3.5 text-sky-400" />
-              <span>Add Project</span>
-            </button>
+            {/* Add Project to Showcase Button (ONLY SHOWN FOR ADMIN) */}
+            {isAdmin && (
+              <button
+                onClick={onOpenAddProject}
+                id="nav-add-project-btn"
+                type="button"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-sky-300 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 rounded-xl shadow-2xs transition-all hover:scale-102 active:scale-98 animate-fadeIn"
+                title="Add a custom project with live link (Admin Only)"
+              >
+                <Plus className="w-3.5 h-3.5 text-sky-400" />
+                <span>Add Project</span>
+              </button>
+            )}
 
             {/* Get In Touch CTA */}
             <a
@@ -168,16 +172,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
           ))}
           <div className="pt-4 border-t border-slate-800 flex flex-col gap-2.5">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenAddProject();
-              }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-sky-300 bg-slate-900 border border-slate-700/80 rounded-xl"
-            >
-              <Plus className="w-4 h-4 text-sky-400" />
-              <span>+ Add Project to Showcase</span>
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenAddProject();
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold text-sky-300 bg-slate-900 border border-slate-700/80 rounded-xl animate-fadeIn"
+              >
+                <Plus className="w-4 h-4 text-sky-400" />
+                <span>+ Add Project to Showcase</span>
+              </button>
+            )}
             <a
               href="https://www.behance.net/hasanullah88"
               target="_blank"

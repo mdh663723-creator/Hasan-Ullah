@@ -1,13 +1,19 @@
 import React from 'react';
-import { ArrowUp, Heart, Mail, Sparkles } from 'lucide-react';
+import { ArrowUp, Heart, Mail, Sparkles, Lock, ShieldCheck } from 'lucide-react';
 import { UserProfile } from '../types';
 import { FacebookIcon, WhatsAppIcon, TelegramIcon, InstagramIcon, TwitterIcon } from './SocialIcons';
 
 interface FooterProps {
   profile: UserProfile;
+  isAdmin?: boolean;
+  onOpenAdminModal?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ profile }) => {
+export const Footer: React.FC<FooterProps> = ({
+  profile,
+  isAdmin = false,
+  onOpenAdminModal
+}) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -139,9 +145,37 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
           </div>
         </div>
 
-        {/* Bottom copyright line */}
+        {/* Bottom copyright line with subtle Owner/Admin Access */}
         <div className="mt-8 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium">
-          <p>© {new Date().getFullYear()} {profile.name}. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <p>© {new Date().getFullYear()} {profile.name}. All rights reserved.</p>
+            {onOpenAdminModal && (
+              <>
+                <span className="text-slate-700">•</span>
+                {isAdmin ? (
+                  <button
+                    onClick={onOpenAdminModal}
+                    type="button"
+                    className="inline-flex items-center gap-1 text-[11px] text-amber-400 hover:text-amber-300 font-bold transition-colors cursor-pointer"
+                    title="Open Admin Controls"
+                  >
+                    <ShieldCheck className="w-3 h-3 text-amber-400" />
+                    <span>👑 Admin Panel Active</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={onOpenAdminModal}
+                    type="button"
+                    className="inline-flex items-center gap-1 text-[11px] text-slate-600 hover:text-sky-400 transition-colors cursor-pointer"
+                    title="Owner / Admin Login"
+                  >
+                    <Lock className="w-2.5 h-2.5" />
+                    <span>Admin</span>
+                  </button>
+                )}
+              </>
+            )}
+          </div>
           <div className="flex items-center gap-1">
             <span>Crafted with passion, clean code, and sleek dark aesthetic for</span>
             <span className="font-bold text-sky-400">{profile.name}</span>

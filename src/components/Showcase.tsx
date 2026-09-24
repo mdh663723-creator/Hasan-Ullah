@@ -27,6 +27,7 @@ interface ShowcaseProps {
   onEditProject?: (project: Project) => void;
   onDeleteCustomProject?: (id: string) => void;
   onResetProjects?: () => void;
+  isAdmin?: boolean;
 }
 
 export const Showcase: React.FC<ShowcaseProps> = ({
@@ -35,7 +36,8 @@ export const Showcase: React.FC<ShowcaseProps> = ({
   onOpenAddProjectModal,
   onEditProject,
   onDeleteCustomProject,
-  onResetProjects
+  onResetProjects,
+  isAdmin = false
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -147,7 +149,7 @@ export const Showcase: React.FC<ShowcaseProps> = ({
             </span>
 
             <div className="flex items-center gap-1.5 pointer-events-auto">
-              {project.isCustom && onDeleteCustomProject && (
+              {isAdmin && project.isCustom && onDeleteCustomProject && (
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -156,7 +158,7 @@ export const Showcase: React.FC<ShowcaseProps> = ({
                     }
                   }}
                   className="p-1.5 rounded-full bg-red-950/80 hover:bg-red-600 text-red-200 transition-colors backdrop-blur-md shadow-sm border border-red-800/50"
-                  title="Delete project"
+                  title="Delete project (Admin Only)"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -259,12 +261,12 @@ export const Showcase: React.FC<ShowcaseProps> = ({
               </a>
             )}
 
-            {onEditProject && (
+            {isAdmin && onEditProject && (
               <button
                 onClick={() => onEditProject(project)}
                 type="button"
                 className="inline-flex items-center justify-center p-2.5 rounded-xl text-slate-300 hover:text-sky-300 bg-slate-900 hover:bg-slate-800 border border-slate-800 transition-all hover:scale-105"
-                title="Edit Project"
+                title="Edit Project (Admin Only)"
               >
                 <Edit3 className="w-4 h-4" />
               </button>
@@ -316,35 +318,37 @@ export const Showcase: React.FC<ShowcaseProps> = ({
             </p>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            {onResetProjects && (
-              <button
-                onClick={() => {
-                  if (confirm('Restore all default showcase projects?')) {
-                    onResetProjects();
-                  }
-                }}
-                type="button"
-                id="showcase-reset-btn"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-sky-300 bg-slate-900 hover:bg-slate-800 border border-slate-700 shadow-sm transition-all"
-                title="Reset to default showcase projects"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-                <span>Reset Projects</span>
-              </button>
-            )}
+          {/* Action Buttons (ONLY FOR ADMIN) */}
+          {isAdmin && (
+            <div className="flex flex-wrap items-center gap-2.5 animate-fadeIn">
+              {onResetProjects && (
+                <button
+                  onClick={() => {
+                    if (confirm('Restore all default showcase projects?')) {
+                      onResetProjects();
+                    }
+                  }}
+                  type="button"
+                  id="showcase-reset-btn"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-sky-300 bg-slate-900 hover:bg-slate-800 border border-slate-700 shadow-sm transition-all"
+                  title="Reset to default showcase projects (Admin Only)"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>Reset Projects</span>
+                </button>
+              )}
 
-            <button
-              onClick={onOpenAddProjectModal}
-              id="showcase-add-work-btn"
-              type="button"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-white bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-md shadow-sky-500/25 hover:shadow-lg hover:shadow-sky-500/35 transition-all hover:scale-102 active:scale-98"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Add New Project</span>
-            </button>
-          </div>
+              <button
+                onClick={onOpenAddProjectModal}
+                id="showcase-add-work-btn"
+                type="button"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-white bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-md shadow-sky-500/25 hover:shadow-lg hover:shadow-sky-500/35 transition-all hover:scale-102 active:scale-98"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add New Project</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Filter Tabs & Search Bar */}
