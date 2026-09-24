@@ -11,7 +11,12 @@ import {
   CheckCircle2,
   Maximize2,
   Minimize2,
-  Expand
+  Expand,
+  FileText,
+  ZoomIn,
+  ZoomOut,
+  Download,
+  Printer
 } from 'lucide-react';
 import { Project } from '../types';
 
@@ -29,6 +34,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   const [activeTab, setActiveTab] = useState<'media' | 'poster'>('media');
   const [isTheater, setIsTheater] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [cvViewMode, setCvViewMode] = useState<'full-doc' | 'embed'>('full-doc');
+  const [cvZoomLevel, setCvZoomLevel] = useState<'fit' | 'medium' | 'large'>('fit');
   const videoContainerRef = useRef<HTMLDivElement>(null);
 
   // Helper to detect and format embed URLs (YouTube, Vimeo, Behance, Facebook)
@@ -117,11 +124,18 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   const isDirectVideo = project.videoUrl && !embedUrl;
   const isBehanceEmbed = embedUrl?.includes('behance.net');
   const isFacebookEmbed = embedUrl?.includes('facebook.com');
+  const isCvProject =
+    project.id.includes('256189277') ||
+    project.tags?.some((t) => t.toLowerCase().includes('cv') || t.toLowerCase().includes('resume')) ||
+    project.title.toLowerCase().includes('cv') ||
+    project.title.toLowerCase().includes('resume');
   const isShorts =
-    project.videoUrl?.includes('shorts') ||
-    project.videoUrl?.includes('reel') ||
-    isFacebookEmbed ||
-    project.aspectRatio === 'portrait';
+    !isCvProject &&
+    !isBehanceEmbed &&
+    (project.videoUrl?.includes('shorts') ||
+      project.videoUrl?.includes('reel') ||
+      isFacebookEmbed ||
+      project.aspectRatio === 'portrait');
 
   // Toggle browser fullscreen for video container
   const toggleBrowserFullscreen = () => {
@@ -149,7 +163,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
     >
       <div
         className={`relative w-full my-auto transition-all duration-300 bg-slate-950 rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-800 overflow-hidden ${
-          isTheater ? 'max-w-6xl' : 'max-w-4xl'
+          isTheater || isCvProject ? 'max-w-5xl' : 'max-w-4xl'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -233,7 +247,139 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           {project.videoUrl && activeTab === 'media' ? (
             embedUrl ? (
               <div className="w-full flex items-center justify-center bg-black p-2 sm:p-3">
-                {isShorts ? (
+                {isCvProject ? (
+                  // Full Height Dedicated CV & Resume Document Viewer (পুরো সিভি যেন নিখুঁতভাবে দেখা যায়)
+                  <div className="w-full flex flex-col items-center bg-slate-950 p-2 sm:p-4">
+                    {/* CV View Mode Switcher and Zoom Controls */}
+                    <div className="w-full max-w-4xl flex flex-wrap items-center justify-between gap-3 mb-3 px-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => setCvViewMode('full-doc')}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                            cvViewMode === 'full-doc'
+                              ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black shadow-md shadow-amber-400/25'
+                              : 'bg-slate-800 text-slate-300 hover:text-white border border-slate-700'
+                          }`}
+                        >
+                          <FileText className="w-3.5 h-3.5 text-slate-950" />
+                          <span>📄 সম্পূর্ণ সিভি ভিউ (ফুল ডকুমেন্ট)</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setCvViewMode('embed')}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                            cvViewMode === 'embed'
+                              ? 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md shadow-sky-500/25'
+                              : 'bg-slate-800 text-slate-300 hover:text-white border border-slate-700'
+                          }`}
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>🔗 Behance লাইভ উইজেট</span>
+                        </button>
+                      </div>
+
+                      {/* Zoom Controls for Full Document Mode */}
+                      {cvViewMode === 'full-doc' && (
+                        <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2 py-1 rounded-xl">
+                          <span className="text-[11px] font-semibold text-slate-400 mr-1 hidden sm:inline">স্কেল:</span>
+                          <button
+                            type="button"
+                            onClick={() => setCvZoomLevel('fit')}
+                            className={`px-2 py-1 rounded-lg text-[11px] font-bold transition-colors ${
+                              cvZoomLevel === 'fit' ? 'bg-amber-400 text-slate-950' : 'text-slate-300 hover:text-white'
+                            }`}
+                            title="সম্পূর্ণ ১-পৃষ্ঠা একনজরে দেখুন"
+                          >
+                            পুরো পেজ (Fit)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCvZoomLevel('medium')}
+                            className={`px-2 py-1 rounded-lg text-[11px] font-bold transition-colors ${
+                              cvZoomLevel === 'medium' ? 'bg-amber-400 text-slate-950' : 'text-slate-300 hover:text-white'
+                            }`}
+                            title="বড় করে পড়ার মোড"
+                          >
+                            রিডিং মোড (1.5x)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCvZoomLevel('large')}
+                            className={`px-2 py-1 rounded-lg text-[11px] font-bold transition-colors ${
+                              cvZoomLevel === 'large' ? 'bg-amber-400 text-slate-950' : 'text-slate-300 hover:text-white'
+                            }`}
+                            title="ফুল রেজুলিউশন বড় ভিউ"
+                          >
+                            হাই-রেজ (2x)
+                          </button>
+                        </div>
+                      )}
+
+                      <div className="flex items-center gap-2">
+                        {/* Download full CV */}
+                        <a
+                          href={project.image || "/projects/behance/256189277_original_cover.jpg"}
+                          download="Hasanullah_Professional_CV_Resume.jpg"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-amber-300 bg-amber-950/60 border border-amber-800/60 hover:bg-amber-900/60 transition-colors"
+                          title="আসল সিভি ইমেজ ডাউনলোড করুন"
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          <span className="hidden sm:inline">ডাউনলোড</span>
+                        </a>
+
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-sky-400 hover:text-sky-300 bg-sky-950/60 border border-sky-800/60 transition-colors"
+                        >
+                          <span>Behance-এ মূল সিভি</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* CV Display: Full Height Unclipped with User's Authentic Image */}
+                    {cvViewMode === 'embed' ? (
+                      <div className="w-full max-w-4xl h-[78vh] min-h-[580px] sm:min-h-[720px] rounded-2xl overflow-hidden shadow-2xl bg-black border border-slate-800">
+                        <iframe
+                          src={embedUrl}
+                          title={project.title}
+                          allow="clipboard-write; fullscreen"
+                          allowFullScreen
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          className="w-full h-full border-0 block"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full max-w-4xl max-h-[80vh] overflow-y-auto overflow-x-auto rounded-2xl shadow-2xl bg-black/90 border border-slate-800 p-2 sm:p-5 flex flex-col items-center">
+                        <div className="text-center mb-2 text-xs text-amber-300/80 font-medium">
+                          ✦ হাসানুল্লাহর নিজস্ব প্রফেশনাল সিভি • সম্পূর্ণ A4 ডকুমেন্ট (উপরে-নিচে স্ক্রোল করে প্রতিটি সেকশন পড়ুন)
+                        </div>
+                        <img
+                          src={project.image || "/projects/behance/256189277_original_cover.jpg"}
+                          alt={project.title}
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/projects/behance/256189277_original_cover.jpg';
+                          }}
+                          className={`rounded-xl shadow-2xl transition-all duration-300 select-none ${
+                            cvZoomLevel === 'fit'
+                              ? 'max-h-[72vh] w-auto object-contain cursor-zoom-in'
+                              : cvZoomLevel === 'medium'
+                              ? 'w-full max-w-2xl h-auto object-contain'
+                              : 'w-full max-w-4xl h-auto object-contain'
+                          }`}
+                          onClick={() => {
+                            setCvZoomLevel((prev) => (prev === 'fit' ? 'medium' : prev === 'medium' ? 'large' : 'fit'));
+                          }}
+                          title="ক্লিক করে জুম পরিবর্তন করুন"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : isShorts ? (
                   // Vertical Shorts / Reels (9:16)
                   <div className="w-full max-w-[340px] sm:max-w-[380px] aspect-[9/16] max-h-[75vh] rounded-xl overflow-hidden shadow-2xl bg-black border border-slate-800">
                     <iframe
@@ -247,7 +393,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   </div>
                 ) : isBehanceEmbed ? (
                   // Behance Interactive Embed
-                  <div className="w-full max-w-[680px] h-[380px] sm:h-[420px] rounded-xl overflow-hidden shadow-2xl bg-black border border-slate-800">
+                  <div className="w-full max-w-3xl h-[460px] sm:h-[540px] rounded-xl overflow-hidden shadow-2xl bg-black border border-slate-800">
                     <iframe
                       src={embedUrl}
                       title={project.title}

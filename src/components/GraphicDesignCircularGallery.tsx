@@ -14,7 +14,9 @@ import {
   X,
   Maximize2,
   ZoomIn,
-  ZoomOut
+  ZoomOut,
+  FileText,
+  Download
 } from 'lucide-react';
 import { Project } from '../types';
 
@@ -41,9 +43,10 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
   // Track the current sliding index for the circular items
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  // Big enlarged view lightbox modal state
+  // Big enlarged view lightbox modal state (default to full uncropped image document)
   const [isBigViewOpen, setIsBigViewOpen] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [lightboxMode, setLightboxMode] = useState<'image' | 'embed'>('image');
 
   // Auto-update selectedProject if list changes
   useEffect(() => {
@@ -220,9 +223,15 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                       alt={project.title}
                       referrerPolicy="no-referrer"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/projects/shoe-mockup.webp';
+                        (e.target as HTMLImageElement).src = project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')
+                          ? '/projects/behance/256189277_original_cover.jpg'
+                          : '/projects/shoe-mockup.webp';
                       }}
-                      className="w-full h-full object-cover object-center group-hover:scale-115 transition-transform duration-700 select-none"
+                      className={`w-full h-full object-cover group-hover:scale-115 transition-transform duration-700 select-none ${
+                        project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')
+                          ? 'object-top'
+                          : 'object-center'
+                      }`}
                     />
 
                     {/* Dark Vignette Overlay for Depth */}
@@ -238,10 +247,14 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                       </span>
                     </div>
 
-                    {/* Circular Item Number Badge */}
+                    {/* Circular Item Badge */}
                     <div className="absolute top-2.5 left-1/2 -translate-x-1/2">
-                      <span className="px-2 py-0.5 rounded-full bg-black/80 border border-white/20 text-[10px] font-extrabold text-sky-300 backdrop-blur-md">
-                        #{idx + 1}
+                      <span className={`px-2 py-0.5 rounded-full border text-[10px] font-extrabold backdrop-blur-md ${
+                        project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')
+                          ? 'bg-amber-400 text-slate-950 border-amber-300 font-black shadow-md'
+                          : 'bg-black/80 border-white/20 text-sky-300'
+                      }`}>
+                        {project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design') ? '📄 প্রফেশনাল সিভি' : `#${idx + 1}`}
                       </span>
                     </div>
                   </div>
@@ -307,48 +320,94 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-              {/* Left Column: Big Circular Spotlight Frame ("গোল আকারে আসবে") */}
+              {/* Left Column: Big Circular Spotlight Frame or Full CV Portrait Document */}
               <div className="lg:col-span-5 flex flex-col items-center justify-center">
-                <motion.div
-                  initial={{ rotate: -10, scale: 0.85 }}
-                  animate={{ rotate: 0, scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 180, damping: 20 }}
-                  className="relative w-64 h-64 sm:w-76 sm:h-76 md:w-84 md:h-84 rounded-full p-2 bg-gradient-to-tr from-sky-400 via-purple-500 to-amber-400 shadow-[0_0_50px_rgba(56,189,248,0.4)] group cursor-pointer"
-                  onClick={() => setIsBigViewOpen(true)}
-                  title="ক্লিক করে বড় স্ক্রিনে সম্পূর্ণ ডিজাইন দেখুন"
-                >
-                  {/* Rotating Orbit Outer Ring */}
-                  <div className="absolute inset-[-10px] rounded-full border-2 border-dashed border-sky-400/60 animate-spin-slow pointer-events-none" />
+                {(selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design')) ? (
+                  // Dedicated Full A4 Document Spotlight Preview for CV
+                  <motion.div
+                    initial={{ rotate: -2, scale: 0.9 }}
+                    animate={{ rotate: 0, scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 180, damping: 20 }}
+                    className="relative w-64 sm:w-72 md:w-80 aspect-[210/297] rounded-3xl p-2.5 bg-gradient-to-tr from-amber-400 via-sky-400 to-amber-300 shadow-[0_0_50px_rgba(245,158,11,0.35)] group cursor-pointer"
+                    onClick={() => {
+                      setLightboxMode('image');
+                      setIsBigViewOpen(true);
+                    }}
+                    title="ক্লিক করে সম্পূর্ণ সিভি বড় স্ক্রিনে পড়ুন"
+                  >
+                    {/* Rotating Orbit Outer Ring */}
+                    <div className="absolute inset-[-8px] rounded-3xl border-2 border-dashed border-amber-400/60 animate-spin-slow pointer-events-none" />
 
-                  {/* Inner Big Circular Image */}
-                  <div className="w-full h-full rounded-full overflow-hidden bg-black relative border-4 border-slate-950 shadow-2xl">
-                    <img
-                      src={selectedProject.image}
-                      alt={selectedProject.title}
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/projects/shoe-mockup.webp';
-                      }}
-                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
-                    />
+                    {/* Inner Full Document Container */}
+                    <div className="w-full h-full rounded-2xl overflow-hidden bg-slate-950 relative border-2 border-slate-900 shadow-2xl flex items-center justify-center">
+                      <img
+                        src={selectedProject.image}
+                        alt={selectedProject.title}
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/projects/behance/256189277_original_cover.jpg';
+                        }}
+                        className="w-full h-full object-contain group-hover:scale-103 transition-transform duration-500"
+                      />
 
-                    {/* High-tech Circular Lens Glow overlay */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-sky-500/20 via-transparent to-amber-500/20 pointer-events-none" />
-
-                    {/* Interactive Zoom Prompt Button */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 rounded-full backdrop-blur-xs">
-                      <div className="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-2xl transform scale-90 group-hover:scale-100 transition-transform">
-                        <Maximize2 className="w-4 h-4 text-slate-950" />
-                        <span>বড় করে দেখুন</span>
+                      {/* Interactive Zoom Prompt Button */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 rounded-2xl backdrop-blur-xs">
+                        <div className="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-2xl transform scale-90 group-hover:scale-100 transition-transform">
+                          <Maximize2 className="w-4 h-4 text-slate-950" />
+                          <span>📄 সম্পূর্ণ সিভি বড় করে পড়ুন</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
 
-                {/* Subtitle / Hint under Big Circle */}
+                    {/* Top CV Document Tag */}
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[11px] font-black shadow-lg border border-amber-300 flex items-center gap-1.5 whitespace-nowrap">
+                      <FileText className="w-3.5 h-3.5 text-slate-950" />
+                      <span>সম্পূর্ণ ১-পৃষ্ঠা এ৪ সিভি (ফুল ডকুমেন্ট)</span>
+                    </div>
+                  </motion.div>
+                ) : (
+                  // Standard Circular Spotlight Frame for Other Graphic Designs
+                  <motion.div
+                    initial={{ rotate: -10, scale: 0.85 }}
+                    animate={{ rotate: 0, scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 180, damping: 20 }}
+                    className="relative w-64 h-64 sm:w-76 sm:h-76 md:w-84 md:h-84 rounded-full p-2 bg-gradient-to-tr from-sky-400 via-purple-500 to-amber-400 shadow-[0_0_50px_rgba(56,189,248,0.4)] group cursor-pointer"
+                    onClick={() => setIsBigViewOpen(true)}
+                    title="ক্লিক করে বড় স্ক্রিনে সম্পূর্ণ ডিজাইন দেখুন"
+                  >
+                    {/* Rotating Orbit Outer Ring */}
+                    <div className="absolute inset-[-10px] rounded-full border-2 border-dashed border-sky-400/60 animate-spin-slow pointer-events-none" />
+
+                    {/* Inner Big Circular Image */}
+                    <div className="w-full h-full rounded-full overflow-hidden bg-black relative border-4 border-slate-950 shadow-2xl">
+                      <img
+                        src={selectedProject.image}
+                        alt={selectedProject.title}
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/projects/shoe-mockup.webp';
+                        }}
+                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                      />
+
+                      {/* High-tech Circular Lens Glow overlay */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-sky-500/20 via-transparent to-amber-500/20 pointer-events-none" />
+
+                      {/* Interactive Zoom Prompt Button */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 rounded-full backdrop-blur-xs">
+                        <div className="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-2xl transform scale-90 group-hover:scale-100 transition-transform">
+                          <Maximize2 className="w-4 h-4 text-slate-950" />
+                          <span>বড় করে দেখুন</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Subtitle / Hint under Spotlight */}
                 <p className="text-xs text-slate-400 mt-4 flex items-center gap-1.5 cursor-pointer hover:text-amber-300 transition-colors" onClick={() => setIsBigViewOpen(true)}>
                   <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  <span>হাই-রেজোলিউশনে বড় করে দেখতে ছবিতে ক্লিক করুন</span>
+                  <span>হাই-রেজোলিউশনে সম্পূর্ণ পড়তে ছবির উপর ক্লিক করুন</span>
                 </p>
               </div>
 
@@ -406,6 +465,18 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
 
                 {/* Bottom Action Buttons */}
                 <div className="mt-8 pt-6 border-t border-slate-800 flex flex-wrap items-center gap-3">
+                  {/* Dedicated Full CV View Button if project is CV */}
+                  {(selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design')) ? (
+                    <button
+                      onClick={() => onOpenProjectModal(selectedProject)}
+                      type="button"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-extrabold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:to-blue-500 shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition-all hover:scale-102 active:scale-98 cursor-pointer"
+                    >
+                      <FileText className="w-4 h-4" />
+                      <span>📄 সম্পূর্ণ সিভি ভিউয়ার খুলুন</span>
+                    </button>
+                  ) : null}
+
                   {/* Primary Big View Button */}
                   <button
                     onClick={() => setIsBigViewOpen(true)}
@@ -478,6 +549,48 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                 </div>
 
                 <div className="flex items-center gap-2">
+                  {/* Mode switch for Behance CV */}
+                  {(selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design')) && (
+                    <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-700 mr-1">
+                      <button
+                        type="button"
+                        onClick={() => setLightboxMode('image')}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+                          lightboxMode === 'image'
+                            ? 'bg-amber-400 text-slate-950 font-black shadow-sm'
+                            : 'text-slate-300 hover:text-white'
+                        }`}
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>সম্পূর্ণ সিভি</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setLightboxMode('embed')}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                          lightboxMode === 'embed'
+                            ? 'bg-sky-500 text-white shadow-sm'
+                            : 'text-slate-300 hover:text-white'
+                        }`}
+                      >
+                        Behance উইজেট
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Download button for CV */}
+                  {(selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design')) && (
+                    <a
+                      href={selectedProject.image}
+                      download="Hasanullah_Professional_CV_Resume.jpg"
+                      className="p-2 sm:px-3 sm:py-2 rounded-xl bg-amber-950/70 hover:bg-amber-900 text-amber-300 border border-amber-800/60 transition-colors flex items-center gap-1.5 text-xs font-bold"
+                      title="আসল হাই-রেজুলিউশন সিভি ডাউনলোড করুন"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span className="hidden sm:inline">ডাউনলোড</span>
+                    </a>
+                  )}
+
                   {/* Zoom Toggle */}
                   <button
                     onClick={() => setIsZoomed(!isZoomed)}
@@ -543,22 +656,44 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                   <ChevronRight className="w-6 h-6 sm:w-7 sm:h-7" />
                 </button>
 
-                {/* Big Artwork Image with Zoom toggle support */}
-                <div className="flex items-center justify-center max-w-full max-h-[66vh] overflow-hidden">
-                  <img
-                    src={selectedProject.image}
-                    alt={selectedProject.title}
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/projects/shoe-mockup.webp';
-                    }}
-                    className={`max-w-full max-h-[66vh] object-contain rounded-2xl shadow-2xl transition-all duration-300 select-none ${
-                      isZoomed ? 'scale-140 cursor-zoom-out' : 'cursor-zoom-in'
-                    }`}
-                    onClick={() => setIsZoomed(!isZoomed)}
-                    title="ক্লিক করে জুম ইন/আউট করুন"
-                  />
-                </div>
+                {/* Big Artwork Image or Behance Embed Reader */}
+                {(selectedProject.id === 'proj-behance-256189277' || selectedProject.videoUrl?.includes('behance.net')) && lightboxMode === 'embed' ? (
+                  <div className="w-full max-w-4xl h-[72vh] min-h-[500px] rounded-2xl overflow-hidden shadow-2xl bg-black border border-slate-800">
+                    <iframe
+                      src={selectedProject.videoUrl || "https://www.behance.net/embed/project/256189277?ilo0=1"}
+                      title={selectedProject.title}
+                      allow="clipboard-write; fullscreen"
+                      allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      className="w-full h-full border-0 block"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-start max-w-full max-h-[72vh] overflow-y-auto overflow-x-auto p-2">
+                    {(selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design')) && (
+                      <div className="text-[11px] text-amber-300 font-semibold mb-2">
+                        ✦ হাসানুল্লাহর নিজস্ব প্রফেশনাল ১-পৃষ্ঠা এ৪ সিভি • স্ক্রোল ও জুম করে সম্পূর্ণটা পড়ুন
+                      </div>
+                    )}
+                    <img
+                      src={selectedProject.image}
+                      alt={selectedProject.title}
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = (selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design'))
+                          ? '/projects/behance/256189277_original_cover.jpg'
+                          : '/projects/shoe-mockup.webp';
+                      }}
+                      className={`object-contain rounded-2xl shadow-2xl transition-all duration-300 select-none ${
+                        isZoomed
+                          ? 'w-full max-w-4xl h-auto cursor-zoom-out'
+                          : 'max-h-[66vh] w-auto cursor-zoom-in'
+                      }`}
+                      onClick={() => setIsZoomed(!isZoomed)}
+                      title="ক্লিক করে জুম ইন/আউট করুন"
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Bottom Details Footer */}

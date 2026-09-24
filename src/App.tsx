@@ -55,11 +55,23 @@ export default function App() {
       'proj-vid-social-retention'
     ];
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v22');
+      const saved = localStorage.getItem('portfolio_user_projects_v25');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.filter((p: Project) => !deletedIds.includes(p.id));
+          const cvProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-behance-256189277');
+          // Always ensure CV project has the authentic original Behance image with real person
+          const updated = parsed.map((p: Project) => {
+            if (p.id === 'proj-behance-256189277' && cvProj) {
+              return { ...cvProj, ...p, image: cvProj.image, liveUrl: cvProj.liveUrl };
+            }
+            return p;
+          });
+          const hasCv = updated.some((p: Project) => p.id === 'proj-behance-256189277');
+          if (!hasCv && cvProj) {
+            return [cvProj, ...updated.filter((p: Project) => !deletedIds.includes(p.id))];
+          }
+          return updated.filter((p: Project) => !deletedIds.includes(p.id));
         }
       }
     } catch {
@@ -75,7 +87,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v22', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v25', JSON.stringify(projects));
     } catch {
       // ignore
     }

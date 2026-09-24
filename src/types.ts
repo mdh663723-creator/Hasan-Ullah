@@ -15,6 +15,7 @@ export interface Project {
   client?: string;
   featured?: boolean;
   metrics?: string;
+  isCustom?: boolean;
 }
 
 export interface SkillItem {

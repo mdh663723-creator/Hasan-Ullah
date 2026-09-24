@@ -1,5 +1,6 @@
 import { Project, SkillCategory, UserProfile } from '../types';
 import profilePhoto from '../assets/images/profile.jpg';
+import cvOriginalPhoto from '../assets/images/hasanullah_cv_original_256189277.jpg';
 
 export const USER_PROFILE: UserProfile = {
   name: 'Hasanullah',
@@ -23,6 +24,21 @@ export const USER_PROFILE: UserProfile = {
 
 export const INITIAL_PROJECTS: Project[] = [
   // --- Graphic Design (Behance) ---
+  {
+    id: 'proj-behance-256189277',
+    title: 'Professional CV & Resume Design',
+    category: 'graphic',
+    categoryLabel: 'Graphic Design',
+    description: 'Modern executive CV & Resume design on Behance showcasing clean typographic hierarchy, structured layout, skills visualization, and elegant aesthetic.',
+    image: cvOriginalPhoto || '/projects/behance/256189277_original_cover.jpg',
+    videoUrl: 'https://www.behance.net/embed/project/256189277?ilo0=1',
+    tags: ['CV Design', 'Resume', 'Print & Digital', 'Illustrator', 'InDesign', 'Typography'],
+    toolsUsed: ['Illustrator', 'Photoshop', 'InDesign'],
+    liveUrl: 'https://www.behance.net/gallery/256189277/CV-Design',
+    featured: true,
+    aspectRatio: 'portrait',
+    metrics: 'Official Behance CV'
+  },
   {
     id: 'proj-behance-255854321',
     title: 'YouTube Thumbnail Design',
