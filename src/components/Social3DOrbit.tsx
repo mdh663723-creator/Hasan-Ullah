@@ -55,10 +55,15 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
   const [activeItem, setActiveItem] = useState<OrbitItem | null>(null);
   const [displayScalePercent, setDisplayScalePercent] = useState<number>(100);
+  const [isProfileHovered, setIsProfileHovered] = useState<boolean>(false);
 
   // Dynamic Scale: small to large based on cursor Y (top to bottom)
   const targetScaleRef = useRef<number>(1.0);
   const currentScaleRef = useRef<number>(1.0);
+
+  // Profile Picture Hover Zoom Ref (small to big zoom-in on hover)
+  const isProfileHoveredRef = useRef<boolean>(false);
+  const profileZoomFactorRef = useRef<number>(1.0);
 
   // Animation refs for 60-120fps direct DOM transforms
   const stageRef = useRef<HTMLDivElement>(null);
@@ -88,7 +93,7 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  // Social Items definition: 6 items evenly spaced across 360 degrees (60 deg apart)
+  // Social Items definition: 6 items with ultra-vivid high-resolution colors & crisp icons
   const allSocialItems: OrbitItem[] = useMemo(() => {
     return [
       {
@@ -99,11 +104,11 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
         actionText: 'ফেসবুকে যান',
         url: facebookUrl,
         brandColor: '#1877F2',
-        secondaryColor: '#0c5ec7',
-        badgeBg: 'bg-[#1877F2]',
-        borderColor: 'border-[#1877F2]/60 hover:border-[#1877F2]',
-        borderGlow: '0 0 28px rgba(24, 119, 242, 0.75)',
-        icon: <FacebookIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        secondaryColor: '#3B82F6',
+        badgeBg: 'bg-gradient-to-tr from-[#1877F2] via-[#2563EB] to-[#60A5FA]',
+        borderColor: 'border-[#3B82F6] hover:border-white',
+        borderGlow: '0 0 30px rgba(37, 99, 235, 0.9)',
+        icon: <FacebookIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-md" />
       },
       {
         id: 'whatsapp',
@@ -113,11 +118,11 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
         actionText: 'মেসেজ পাঠান',
         url: whatsappUrl,
         brandColor: '#25D366',
-        secondaryColor: '#1ea952',
-        badgeBg: 'bg-[#25D366]',
-        borderColor: 'border-[#25D366]/60 hover:border-[#25D366]',
-        borderGlow: '0 0 28px rgba(37, 211, 102, 0.75)',
-        icon: <WhatsAppIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        secondaryColor: '#10B981',
+        badgeBg: 'bg-gradient-to-tr from-[#16A34A] via-[#22C55E] to-[#4ADE80]',
+        borderColor: 'border-[#22C55E] hover:border-white',
+        borderGlow: '0 0 30px rgba(34, 197, 94, 0.9)',
+        icon: <WhatsAppIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-md" />
       },
       {
         id: 'behance',
@@ -127,11 +132,11 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
         actionText: 'শোকেস দেখুন',
         url: behanceUrl,
         brandColor: '#0057FF',
-        secondaryColor: '#0043c7',
-        badgeBg: 'bg-[#0057FF]',
-        borderColor: 'border-[#0057FF]/60 hover:border-[#0057FF]',
-        borderGlow: '0 0 28px rgba(0, 87, 255, 0.75)',
-        icon: <BehanceIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        secondaryColor: '#38BDF8',
+        badgeBg: 'bg-gradient-to-tr from-[#0052CC] via-[#0057FF] to-[#38BDF8]',
+        borderColor: 'border-[#38BDF8] hover:border-white',
+        borderGlow: '0 0 30px rgba(0, 87, 255, 0.9)',
+        icon: <BehanceIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-md" />
       },
       {
         id: 'telegram',
@@ -141,11 +146,11 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
         actionText: 'কানেক্ট করুন',
         url: telegramUrl,
         brandColor: '#229ED9',
-        secondaryColor: '#1a7ca9',
-        badgeBg: 'bg-[#229ED9]',
-        borderColor: 'border-[#229ED9]/60 hover:border-[#229ED9]',
-        borderGlow: '0 0 28px rgba(34, 158, 217, 0.75)',
-        icon: <TelegramIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        secondaryColor: '#0EA5E9',
+        badgeBg: 'bg-gradient-to-tr from-[#0284C7] via-[#0EA5E9] to-[#38BDF8]',
+        borderColor: 'border-[#38BDF8] hover:border-white',
+        borderGlow: '0 0 30px rgba(14, 165, 233, 0.9)',
+        icon: <TelegramIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-md" />
       },
       {
         id: 'instagram',
@@ -155,11 +160,11 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
         actionText: 'ফলো করুন',
         url: instagramUrl,
         brandColor: '#E1306C',
-        secondaryColor: '#C13584',
+        secondaryColor: '#F58529',
         badgeBg: 'bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF]',
-        borderColor: 'border-[#E1306C]/60 hover:border-[#E1306C]',
-        borderGlow: '0 0 28px rgba(225, 48, 108, 0.75)',
-        icon: <InstagramIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        borderColor: 'border-[#F472B6] hover:border-white',
+        borderGlow: '0 0 30px rgba(225, 48, 108, 0.9)',
+        icon: <InstagramIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-md" />
       },
       {
         id: 'twitter',
@@ -169,11 +174,11 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
         actionText: 'ফলো করুন',
         url: twitterUrl,
         brandColor: '#F8FAFC',
-        secondaryColor: '#94A3B8',
-        badgeBg: 'bg-slate-800',
-        borderColor: 'border-slate-400/60 hover:border-white',
-        borderGlow: '0 0 28px rgba(255, 255, 255, 0.6)',
-        icon: <TwitterIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        secondaryColor: '#CBD5E1',
+        badgeBg: 'bg-gradient-to-tr from-[#0F172A] via-[#1E293B] to-[#475569]',
+        borderColor: 'border-slate-300 hover:border-white',
+        borderGlow: '0 0 30px rgba(255, 255, 255, 0.8)',
+        icon: <TwitterIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-md" />
       }
     ];
   }, [facebookUrl, whatsappUrl, behanceUrl, telegramUrl, instagramUrl, twitterUrl]);
@@ -258,8 +263,11 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
     }
 
     // Scale center core while strictly maintaining translate(-50%, -50%) dead center
+    // Incorporates smooth hover zoom (small to big) when cursor is placed on the profile picture
     if (centerCoreRef.current) {
-      const coreScale = 0.88 + (currentScale - 1) * 0.35;
+      const targetZoom = isProfileHoveredRef.current ? 1.48 : 1.0;
+      profileZoomFactorRef.current += (targetZoom - profileZoomFactorRef.current) * 0.16;
+      const coreScale = (0.88 + (currentScale - 1) * 0.35) * profileZoomFactorRef.current;
       centerCoreRef.current.style.transform = `translate(-50%, -50%) scale(${coreScale})`;
     }
 
@@ -281,10 +289,10 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
       const z = cosA; // -1 (back) to +1 (front)
 
       const normalizedZ = (z + 1) / 2; // 0 to 1
-      const depthScale = 0.74 + 0.38 * normalizedZ;
-      const opacity = 0.48 + 0.52 * normalizedZ;
+      const depthScale = 0.78 + 0.34 * normalizedZ;
+      // High-resolution visibility: always 88% to 100% opacity, never dim or washed out!
+      const opacity = 0.88 + 0.12 * normalizedZ;
       const zIndex = Math.round(15 + normalizedZ * 70);
-      const blur = z < -0.3 ? Math.round(Math.abs(z) * 1.5) : 0;
 
       if (z > maxZ) {
         maxZ = z;
@@ -300,12 +308,13 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
       el.style.transform = `translate3d(${x}px, ${y}px, 0px) translate(-50%, -50%) scale(${itemFinalScale})`;
       el.style.zIndex = `${finalZIndex}`;
       el.style.opacity = `${finalOpacity}`;
-      el.style.filter = blur > 0 && !isThisHovered ? `blur(${blur}px)` : 'none';
+      // 100% Crisp High-Resolution - NEVER BLUR!
+      el.style.filter = 'none';
 
-      if (normalizedZ > 0.6 || isThisHovered) {
+      if (normalizedZ > 0.5 || isThisHovered) {
         el.style.boxShadow = item.borderGlow;
       } else {
-        el.style.boxShadow = '0 4px 14px rgba(0,0,0,0.6)';
+        el.style.boxShadow = '0 4px 16px rgba(0,0,0,0.6)';
       }
     });
 
@@ -496,26 +505,60 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
         {/* 
           Central Profile Picture Core
           EXACTLY at 50% 50% (Dead Center / মধ্যস্থল)
+          Smooth Zoom-In on Mouse Hover (ছোট থেকে বড় হবে)
         */}
         <div
           ref={centerCoreRef}
-          className="absolute top-1/2 left-1/2 flex flex-col items-center justify-center pointer-events-none select-none z-35 transition-transform duration-100 ease-out"
+          onPointerDown={(e) => {
+            // Prevent drag capture so clicks and hovers work flawlessly
+            e.stopPropagation();
+          }}
+          onMouseEnter={() => {
+            isProfileHoveredRef.current = true;
+            setIsProfileHovered(true);
+          }}
+          onMouseLeave={() => {
+            isProfileHoveredRef.current = false;
+            setIsProfileHovered(false);
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onExploreProjects?.();
+          }}
+          title={`${profile.name} - মাউস নিলে জুম ইন হয় • ক্লিক করে শোকেস দেখুন`}
+          className="group pointer-events-auto cursor-pointer absolute top-1/2 left-1/2 flex flex-col items-center justify-center select-none z-35"
           style={{
             transform: 'translate(-50%, -50%) scale(1)'
           }}
         >
-          {/* Radial Aura Rings */}
-          <div className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-sky-500/20 blur-xl animate-ping opacity-30" />
-          <div className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-sky-500/30 via-indigo-500/25 to-purple-600/30 blur-md animate-pulse" />
+          {/* Radial Aura Rings - Expand and glow brightly when hovered */}
+          <div
+            className={`absolute rounded-full bg-sky-400/30 blur-2xl transition-all duration-300 pointer-events-none ${
+              isProfileHovered ? 'w-36 h-36 opacity-80' : 'w-24 h-24 sm:w-28 sm:h-28 opacity-30 animate-ping'
+            }`}
+          />
+          <div
+            className={`absolute rounded-full bg-gradient-to-tr from-sky-400 via-indigo-500 to-purple-600 blur-lg transition-all duration-300 pointer-events-none ${
+              isProfileHovered ? 'w-30 h-30 opacity-70' : 'w-20 h-20 sm:w-24 sm:h-24 opacity-30 animate-pulse'
+            }`}
+          />
 
-          {/* Avatar Ring Container */}
-          <div className="relative w-18 h-18 sm:w-22 sm:h-22 rounded-full p-1 bg-gradient-to-tr from-sky-400 via-indigo-500 to-purple-500 shadow-2xl shadow-sky-500/50 border border-sky-300/50 flex items-center justify-center">
+          {/* Avatar Ring Container with Zoom-In Glow */}
+          <div
+            className={`relative w-18 h-18 sm:w-22 sm:h-22 rounded-full p-1 bg-gradient-to-tr from-sky-400 via-indigo-500 to-purple-500 border border-sky-300/50 flex items-center justify-center transition-all duration-300 shadow-2xl ${
+              isProfileHovered
+                ? 'shadow-[0_0_35px_rgba(56,189,248,0.9)] border-white ring-2 ring-sky-300'
+                : 'shadow-sky-500/50'
+            }`}
+          >
             <div className="w-full h-full rounded-full bg-slate-950/95 backdrop-blur-md flex flex-col items-center justify-center p-1 overflow-hidden border border-slate-700/80">
               {profile.avatarUrl ? (
                 <img
                   src={profile.avatarUrl}
                   alt={profile.name}
-                  className="w-full h-full rounded-full object-cover object-center"
+                  className={`w-full h-full rounded-full object-cover object-center transition-transform duration-300 ${
+                    isProfileHovered ? 'scale-115' : 'scale-100'
+                  }`}
                 />
               ) : (
                 <div className="w-full h-full rounded-full bg-gradient-to-br from-sky-600 to-blue-800 flex items-center justify-center text-white font-black text-xs sm:text-sm">
@@ -527,15 +570,26 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
             {/* Orbiting Photon Light Dot */}
             <div
               className="absolute inset-0 rounded-full animate-spin-slow pointer-events-none"
-              style={{ animationDuration: '6s' }}
+              style={{ animationDuration: isProfileHovered ? '2.5s' : '6s' }}
             >
-              <div className="w-2.5 h-2.5 rounded-full bg-sky-300 shadow-[0_0_10px_#38bdf8] -top-1 left-1/2 -translate-x-1/2" />
+              <div
+                className={`w-2.5 h-2.5 rounded-full bg-sky-300 -top-1 left-1/2 -translate-x-1/2 transition-shadow ${
+                  isProfileHovered ? 'shadow-[0_0_16px_#38bdf8] scale-125' : 'shadow-[0_0_10px_#38bdf8]'
+                }`}
+              />
             </div>
           </div>
 
           {/* Central Label */}
-          <div className="mt-2 px-3 py-0.5 rounded-full bg-slate-900/90 border border-sky-500/40 backdrop-blur-md text-[10px] sm:text-xs font-bold text-sky-300 shadow-lg flex items-center gap-1">
-            <span>Hasanullah</span>
+          <div
+            className={`mt-2 px-3 py-0.5 rounded-full border backdrop-blur-md text-[10px] sm:text-xs font-bold transition-all duration-200 flex items-center gap-1 shadow-lg ${
+              isProfileHovered
+                ? 'bg-sky-950/90 border-sky-400 text-white shadow-sky-500/30'
+                : 'bg-slate-900/90 border-sky-500/40 text-sky-300'
+            }`}
+          >
+            <span>{profile.name}</span>
+            {isProfileHovered && <span className="text-[9px] text-sky-300 font-semibold">• Zoomed</span>}
           </div>
         </div>
 
@@ -570,26 +624,33 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
                 setActiveItem(item);
               }}
               onMouseLeave={() => setHoveredItemId(null)}
-              className={`group pointer-events-auto absolute flex items-center gap-2 sm:gap-2.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl bg-slate-950/95 backdrop-blur-xl border ${item.borderColor} cursor-pointer transition-all duration-150 active:scale-95 shadow-xl select-none`}
+              className={`group pointer-events-auto absolute flex items-center gap-3 px-3.5 py-2.5 sm:px-4.5 sm:py-3 rounded-2xl bg-slate-900/95 hover:bg-slate-850 border-2 ${item.borderColor} cursor-pointer transition-all duration-150 active:scale-95 shadow-2xl select-none overflow-visible`}
               style={{
                 willChange: 'transform, opacity, z-index',
                 transform: 'translate3d(0,0,0) translate(-50%, -50%) scale(1)'
               }}
             >
-              {/* Brand Icon Badge */}
-              <div
-                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl ${item.badgeBg} flex items-center justify-center shadow-lg group-hover:scale-115 transition-transform duration-200 shrink-0`}
-              >
-                {item.icon}
+              {/* Tool Icon Box with Peeking Head Animation ("মাথা তুলে তাকায়") */}
+              <div className="relative overflow-visible shrink-0 flex items-center justify-center">
+                {/* Base placeholder slot showing where the icon popped out from */}
+                <div className="absolute inset-0 rounded-xl bg-black/60 border border-slate-700/80 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                {/* The Ultra-Vibrant High-Resolution Icon Box that pops UP on hover */}
+                <div
+                  className={`tool-peek-icon relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${item.badgeBg} flex items-center justify-center border-2 border-white/50 shadow-xl ring-1 ring-black/20`}
+                  style={{ boxShadow: item.borderGlow }}
+                >
+                  {item.icon}
+                </div>
               </div>
 
               {/* Text Info */}
-              <div className="flex flex-col text-left pr-1 min-w-[70px] sm:min-w-[85px]">
-                <span className="text-xs sm:text-sm font-black text-white group-hover:text-sky-300 transition-colors tracking-tight flex items-center gap-1">
+              <div className="flex flex-col text-left pr-1 min-w-[75px] sm:min-w-[90px]">
+                <span className="text-xs sm:text-sm font-extrabold text-white group-hover:text-sky-300 transition-colors tracking-tight flex items-center gap-1.5">
                   {item.name}
-                  <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-sky-400 group-hover:translate-x-0.5 transition-transform" />
+                  <ExternalLink className="w-3 h-3 text-sky-400 group-hover:translate-x-0.5 transition-transform" />
                 </span>
-                <span className="text-[10px] sm:text-[11px] font-semibold text-slate-300 truncate">
+                <span className="text-[11px] font-semibold text-slate-200 group-hover:text-white truncate">
                   {item.actionText}
                 </span>
               </div>
@@ -628,10 +689,10 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
           <span>{isAutoRotating ? '৩D রোটেশন চলছে' : 'পজ করা'}</span>
         </button>
 
-        {/* Direct Link Hint */}
-        <div className="hidden sm:inline-flex items-center gap-1.5 text-slate-400">
+        {/* Direct Link Hint with Peek Note */}
+        <div className="hidden sm:inline-flex items-center gap-1.5 text-slate-300 font-medium">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>যেকোনো আইকনে ক্লিক করলেই সরাসরি ওপেন হবে</span>
+          <span>মাউস নিলে আইকন মাথা তুলে দেখবে • ক্লিক করলে সরাসরি প্রোফাইল ওপেন</span>
         </div>
       </div>
     </div>

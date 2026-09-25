@@ -139,8 +139,8 @@ export const ScannerPhotoFrame: React.FC<ScannerPhotoFrameProps> = ({
                   target.src = '/watermark.jpg';
                 }
               }}
-              className={`w-full h-full object-cover object-top transition-transform duration-700 ease-out ${
-                isHovered ? 'scale-105' : 'scale-100'
+              className={`w-full h-full object-cover object-top transition-transform duration-500 ease-out ${
+                isHovered ? 'scale-115 sm:scale-120' : 'scale-100'
               }`}
             />
             {/* Subtle gradient vignette at bottom for name banner */}
