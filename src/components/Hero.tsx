@@ -18,6 +18,7 @@ import { UserProfile } from '../types';
 import { ScannerPhotoFrame } from './ScannerPhotoFrame';
 import { SocialIconsBar } from './SocialIcons';
 import { Social3DOrbit } from './Social3DOrbit';
+import { ToolsMarqueeSlider } from './ToolsMarqueeSlider';
 
 interface HeroProps {
   profile: UserProfile;
@@ -34,17 +35,6 @@ export const Hero: React.FC<HeroProps> = ({ profile, onViewShowcase, onUpdateAva
     { number: profile.clientRating, label: 'Client Satisfaction', icon: CheckCircle2, color: 'from-emerald-400 to-teal-600' },
     { number: profile.experienceYears, label: 'Dedicated Experience', icon: Flame, color: 'from-amber-400 to-orange-500' },
     { number: 'AI Automation', label: 'Continuous Learning & Focus', icon: Bot, color: 'from-purple-500 to-indigo-600' }
-  ];
-
-  const techBadges = [
-    { name: 'Adobe Premiere Pro', bg: 'bg-purple-950/70 text-purple-300 border-purple-700/70', glow: 'group-hover:shadow-[0_0_24px_rgba(192,132,252,0.7)]' },
-    { name: 'After Effects', bg: 'bg-indigo-950/70 text-indigo-300 border-indigo-700/70', glow: 'group-hover:shadow-[0_0_24px_rgba(129,140,248,0.7)]' },
-    { name: 'Adobe Photoshop', bg: 'bg-sky-950/70 text-sky-300 border-sky-700/70', glow: 'group-hover:shadow-[0_0_24px_rgba(56,189,248,0.7)]' },
-    { name: 'Adobe Illustrator', bg: 'bg-amber-950/70 text-amber-300 border-amber-700/70', glow: 'group-hover:shadow-[0_0_24px_rgba(251,191,36,0.7)]' },
-    { name: 'Reels & Shorts Editing', bg: 'bg-pink-950/70 text-pink-300 border-pink-700/70', glow: 'group-hover:shadow-[0_0_24px_rgba(244,114,182,0.7)]' },
-    { name: 'DaVinci Resolve', bg: 'bg-emerald-950/70 text-emerald-300 border-emerald-700/70', glow: 'group-hover:shadow-[0_0_24px_rgba(52,211,153,0.7)]' },
-    { name: 'AI Automation (n8n/Make)', bg: 'bg-cyan-950/70 text-cyan-300 border-cyan-700/70', glow: 'group-hover:shadow-[0_0_24px_rgba(34,211,238,0.7)]' },
-    { name: 'CapCut Desktop', bg: 'bg-slate-900 text-slate-200 border-slate-700', glow: 'group-hover:shadow-[0_0_24px_rgba(148,163,184,0.7)]' }
   ];
 
   const handleFullscreenVideo = () => {
@@ -339,23 +329,8 @@ export const Hero: React.FC<HeroProps> = ({ profile, onViewShowcase, onUpdateAva
             <Social3DOrbit profile={profile} onExploreProjects={onViewShowcase} />
           </div>
 
-          {/* Tech Badges Row */}
-          <div className="w-full flex flex-wrap items-center justify-center gap-2 pt-2">
-            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-sky-400 mr-1 flex items-center gap-1.5">
-              <Video className="w-4 h-4 text-sky-400 animate-pulse" />
-              Specialized Tools:
-            </span>
-            {techBadges.map((badge, idx) => (
-              <div
-                key={idx}
-                className={`group relative overflow-hidden px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-semibold rounded-xl border shadow-xs transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer select-none ${badge.bg} ${badge.glow}`}
-              >
-                <span className="relative z-10 tracking-tight inline-block">
-                  {badge.name}
-                </span>
-              </div>
-            ))}
-          </div>
+          {/* Tools & Software Infinite Right-to-Left Sliding Marquee */}
+          <ToolsMarqueeSlider />
         </div>
 
         {/* Stats Grid Bar */}

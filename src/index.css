@@ -96,3 +96,23 @@
   animation: spinSlow 22s linear infinite;
 }
 
+/* Continuous smooth Right-to-Left Slider Marquee */
+@keyframes slideRightToLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide-rtl {
+  display: flex;
+  width: max-content;
+  animation: slideRightToLeft 25s linear infinite;
+}
+
+.animate-slide-rtl:hover {
+  animation-play-state: paused;
+}
+
