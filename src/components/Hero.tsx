@@ -17,6 +17,7 @@ import {
 import { UserProfile } from '../types';
 import { ScannerPhotoFrame } from './ScannerPhotoFrame';
 import { SocialIconsBar } from './SocialIcons';
+import { Social3DOrbit } from './Social3DOrbit';
 
 interface HeroProps {
   profile: UserProfile;
@@ -333,8 +334,10 @@ export const Hero: React.FC<HeroProps> = ({ profile, onViewShowcase, onUpdateAva
             </a>
           </div>
 
-          {/* Social Icons Bar (WhatsApp, Facebook, Telegram, etc.) */}
-          <SocialIconsBar profile={profile} />
+          {/* 3D Circular Orbiting Social Icons Showcase (Facebook, WhatsApp, Telegram, Instagram, Twitter) */}
+          <div className="w-full max-w-4xl mx-auto my-3">
+            <Social3DOrbit profile={profile} onExploreProjects={onViewShowcase} />
+          </div>
 
           {/* Tech Badges Row */}
           <div className="w-full flex flex-wrap items-center justify-center gap-2 pt-2">
