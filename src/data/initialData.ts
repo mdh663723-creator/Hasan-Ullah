@@ -222,6 +222,21 @@ export const INITIAL_PROJECTS: Project[] = [
 
   // --- Video Editing & Reels ---
   {
+    id: 'proj-yt-qot3r6dlgzg',
+    title: 'Search Animation',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'Dynamic Google search bar motion graphics animation with kinetic typography, smooth keyframe easing, and UI micro-interactions.',
+    image: 'https://i.ytimg.com/vi/qOT3r6DlGZg/maxresdefault.jpg',
+    videoUrl: 'https://youtu.be/qOT3r6DlGZg?si=b-SdWFgHw1dT1vX8',
+    tags: ['Search Animation', 'Motion Graphics', 'After Effects', 'UI Animation'],
+    toolsUsed: ['After Effects', 'Premiere Pro', 'Illustrator'],
+    liveUrl: 'https://youtu.be/qOT3r6DlGZg?si=b-SdWFgHw1dT1vX8',
+    featured: true,
+    aspectRatio: 'landscape',
+    metrics: 'Search Motion'
+  },
+  {
     id: 'proj-yt-vp4gklgxoau',
     title: 'Motion Graphics Showreel',
     category: 'video',

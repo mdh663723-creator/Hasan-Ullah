@@ -57,21 +57,34 @@ export default function App() {
       'proj-vid-social-retention'
     ];
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v25');
+      const saved = localStorage.getItem('portfolio_user_projects_v26') || localStorage.getItem('portfolio_user_projects_v25');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
           const cvProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-behance-256189277');
+          const searchAnimProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-yt-qot3r6dlgzg');
           // Always ensure CV project has the authentic original Behance image with real person
-          const updated = parsed.map((p: Project) => {
+          let updated = parsed.map((p: Project) => {
             if (p.id === 'proj-behance-256189277' && cvProj) {
               return { ...cvProj, ...p, image: cvProj.image, liveUrl: cvProj.liveUrl };
+            }
+            if (p.id === 'proj-yt-qot3r6dlgzg' && searchAnimProj) {
+              return { ...searchAnimProj, ...p };
             }
             return p;
           });
           const hasCv = updated.some((p: Project) => p.id === 'proj-behance-256189277');
           if (!hasCv && cvProj) {
-            return [cvProj, ...updated.filter((p: Project) => !deletedIds.includes(p.id))];
+            updated = [cvProj, ...updated];
+          }
+          const hasSearchAnim = updated.some((p: Project) => p.id === 'proj-yt-qot3r6dlgzg');
+          if (!hasSearchAnim && searchAnimProj) {
+            const firstVideoIdx = updated.findIndex((p: Project) => p.category === 'video');
+            if (firstVideoIdx >= 0) {
+              updated.splice(firstVideoIdx, 0, searchAnimProj);
+            } else {
+              updated.unshift(searchAnimProj);
+            }
           }
           return updated.filter((p: Project) => !deletedIds.includes(p.id));
         }
@@ -126,7 +139,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v25', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v26', JSON.stringify(projects));
     } catch {
       // ignore
     }
