@@ -127,9 +127,24 @@ export const Showcase: React.FC<ShowcaseProps> = ({
             loading="lazy"
             referrerPolicy="no-referrer"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = (project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design'))
-                ? '/projects/behance/256189277_original_cover.jpg'
-                : '/projects/shoe-mockup.webp';
+              const target = e.target as HTMLImageElement;
+              if (project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')) {
+                target.src = '/projects/behance/256189277_original_cover.jpg';
+              } else if (project.id === 'proj-behance-256347017') {
+                target.src = 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/3bc74f256347017.Y3JvcCwxMDgwLDg0NCwwLDExNw.png';
+              } else if (project.id === 'proj-yt-qxen-mars') {
+                target.src = 'https://i.ytimg.com/vi/-_QXeN-MArs/hqdefault.jpg';
+              } else if (project.id === 'proj-yt-xy94oyggcee') {
+                target.src = 'https://i.ytimg.com/vi/xy94oYGGCeE/hqdefault.jpg';
+              } else if (project.id === 'proj-yt-shorts-rtexdizqg00') {
+                target.src = 'https://i.ytimg.com/vi/rtexdiZQg00/hqdefault.jpg';
+              } else if (project.id === 'proj-yt-bvvjh2w1-ii') {
+                target.src = 'https://i.ytimg.com/vi/BvVJH2w1-iI/hqdefault.jpg';
+              } else if (project.id === 'proj-yt-jdb0a-zdbrk') {
+                target.src = 'https://i.ytimg.com/vi/jDB0A-zdBRk/maxresdefault.jpg';
+              } else {
+                target.src = '/projects/shoe-mockup.webp';
+              }
             }}
             className={`w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out ${
               (project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design'))
@@ -162,6 +177,18 @@ export const Showcase: React.FC<ShowcaseProps> = ({
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
+              )}
+
+              {(project.id === 'proj-yt-qxen-mars' || project.id === 'proj-yt-xy94oyggcee' || project.id === 'proj-yt-shorts-rtexdizqg00') && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-sm border border-purple-400/40">
+                  ✦ নতুন
+                </span>
+              )}
+
+              {project.category === 'video' && project.aspectRatio && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/75 text-slate-300 border border-white/10 backdrop-blur-xs">
+                  {project.aspectRatio === 'portrait' ? '9:16 Shorts' : '16:9 Video'}
+                </span>
               )}
 
               {project.aspectRatio && project.category !== 'video' && project.category !== 'graphic' && (

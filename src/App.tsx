@@ -57,16 +57,40 @@ export default function App() {
       'proj-vid-social-retention'
     ];
     try {
-      const saved = localStorage.getItem('portfolio_user_projects_v26') || localStorage.getItem('portfolio_user_projects_v25');
+      const saved = localStorage.getItem('portfolio_user_projects_v31') || localStorage.getItem('portfolio_user_projects_v30') || localStorage.getItem('portfolio_user_projects_v29') || localStorage.getItem('portfolio_user_projects_v28') || localStorage.getItem('portfolio_user_projects_v27') || localStorage.getItem('portfolio_user_projects_v26') || localStorage.getItem('portfolio_user_projects_v25');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
           const cvProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-behance-256189277');
+          const newSocialProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-behance-256347017');
+          const aiAdVideoProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-yt-qxen-mars');
+          const aiVideoProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-yt-xy94oyggcee');
+          const productMotionProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-yt-shorts-rtexdizqg00');
+          const motionGraphicsProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-yt-bvvjh2w1-ii');
+          const uiMotionProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-yt-jdb0a-zdbrk');
           const searchAnimProj = INITIAL_PROJECTS.find((p) => p.id === 'proj-yt-qot3r6dlgzg');
-          // Always ensure CV project has the authentic original Behance image with real person
+          // Always ensure CV project, Behance project, and YouTube projects have authentic media
           let updated = parsed.map((p: Project) => {
             if (p.id === 'proj-behance-256189277' && cvProj) {
               return { ...cvProj, ...p, image: cvProj.image, liveUrl: cvProj.liveUrl };
+            }
+            if (p.id === 'proj-behance-256347017' && newSocialProj) {
+              return { ...newSocialProj, ...p, image: newSocialProj.image, liveUrl: newSocialProj.liveUrl, videoUrl: newSocialProj.videoUrl };
+            }
+            if (p.id === 'proj-yt-qxen-mars' && aiAdVideoProj) {
+              return { ...aiAdVideoProj, ...p, image: aiAdVideoProj.image, liveUrl: aiAdVideoProj.liveUrl, videoUrl: aiAdVideoProj.videoUrl };
+            }
+            if (p.id === 'proj-yt-xy94oyggcee' && aiVideoProj) {
+              return { ...aiVideoProj, ...p, image: aiVideoProj.image, liveUrl: aiVideoProj.liveUrl, videoUrl: aiVideoProj.videoUrl };
+            }
+            if (p.id === 'proj-yt-shorts-rtexdizqg00' && productMotionProj) {
+              return { ...productMotionProj, ...p, image: productMotionProj.image, liveUrl: productMotionProj.liveUrl, videoUrl: productMotionProj.videoUrl };
+            }
+            if (p.id === 'proj-yt-bvvjh2w1-ii' && motionGraphicsProj) {
+              return { ...motionGraphicsProj, ...p, image: motionGraphicsProj.image, liveUrl: motionGraphicsProj.liveUrl, videoUrl: motionGraphicsProj.videoUrl };
+            }
+            if (p.id === 'proj-yt-jdb0a-zdbrk' && uiMotionProj) {
+              return { ...uiMotionProj, ...p, image: uiMotionProj.image, liveUrl: uiMotionProj.liveUrl, videoUrl: uiMotionProj.videoUrl };
             }
             if (p.id === 'proj-yt-qot3r6dlgzg' && searchAnimProj) {
               return { ...searchAnimProj, ...p };
@@ -77,11 +101,88 @@ export default function App() {
           if (!hasCv && cvProj) {
             updated = [cvProj, ...updated];
           }
+          const hasNewSocial = updated.some((p: Project) => p.id === 'proj-behance-256347017');
+          if (!hasNewSocial && newSocialProj) {
+            const cvIdx = updated.findIndex((p: Project) => p.id === 'proj-behance-256189277');
+            if (cvIdx >= 0) {
+              updated.splice(cvIdx + 1, 0, newSocialProj);
+            } else {
+              updated.unshift(newSocialProj);
+            }
+          }
+          // Ensure new Ai Generate Ad Video project is present at the very front of video projects
+          const hasAiAdVideo = updated.some((p: Project) => p.id === 'proj-yt-qxen-mars');
+          if (!hasAiAdVideo && aiAdVideoProj) {
+            const firstVideoIdx = updated.findIndex((p: Project) => p.category === 'video');
+            if (firstVideoIdx >= 0) {
+              updated.splice(firstVideoIdx, 0, aiAdVideoProj);
+            } else {
+              updated.unshift(aiAdVideoProj);
+            }
+          }
+          // Ensure new AI Video project is present
+          const hasAiVideo = updated.some((p: Project) => p.id === 'proj-yt-xy94oyggcee');
+          if (!hasAiVideo && aiVideoProj) {
+            const aiAdIdx = updated.findIndex((p: Project) => p.id === 'proj-yt-qxen-mars');
+            if (aiAdIdx >= 0) {
+              updated.splice(aiAdIdx + 1, 0, aiVideoProj);
+            } else {
+              const firstVideoIdx = updated.findIndex((p: Project) => p.category === 'video');
+              if (firstVideoIdx >= 0) {
+                updated.splice(firstVideoIdx, 0, aiVideoProj);
+              } else {
+                updated.unshift(aiVideoProj);
+              }
+            }
+          }
+          // Ensure new Product Motion Shorts project is present right next to AI video
+          const hasProductMotion = updated.some((p: Project) => p.id === 'proj-yt-shorts-rtexdizqg00');
+          if (!hasProductMotion && productMotionProj) {
+            const aiIdx = updated.findIndex((p: Project) => p.id === 'proj-yt-xy94oyggcee');
+            if (aiIdx >= 0) {
+              updated.splice(aiIdx + 1, 0, productMotionProj);
+            } else {
+              const firstVideoIdx = updated.findIndex((p: Project) => p.category === 'video');
+              if (firstVideoIdx >= 0) {
+                updated.splice(firstVideoIdx, 0, productMotionProj);
+              } else {
+                updated.unshift(productMotionProj);
+              }
+            }
+          }
+          const hasMotionGraphics = updated.some((p: Project) => p.id === 'proj-yt-bvvjh2w1-ii');
+          if (!hasMotionGraphics && motionGraphicsProj) {
+            const pmIdx = updated.findIndex((p: Project) => p.id === 'proj-yt-shorts-rtexdizqg00');
+            if (pmIdx >= 0) {
+              updated.splice(pmIdx + 1, 0, motionGraphicsProj);
+            } else {
+              const firstVideoIdx = updated.findIndex((p: Project) => p.category === 'video');
+              if (firstVideoIdx >= 0) {
+                updated.splice(firstVideoIdx, 0, motionGraphicsProj);
+              } else {
+                updated.unshift(motionGraphicsProj);
+              }
+            }
+          }
+          const hasUiMotion = updated.some((p: Project) => p.id === 'proj-yt-jdb0a-zdbrk');
+          if (!hasUiMotion && uiMotionProj) {
+            const mgIdx = updated.findIndex((p: Project) => p.id === 'proj-yt-bvvjh2w1-ii');
+            if (mgIdx >= 0) {
+              updated.splice(mgIdx + 1, 0, uiMotionProj);
+            } else {
+              const firstVideoIdx = updated.findIndex((p: Project) => p.category === 'video');
+              if (firstVideoIdx >= 0) {
+                updated.splice(firstVideoIdx, 0, uiMotionProj);
+              } else {
+                updated.unshift(uiMotionProj);
+              }
+            }
+          }
           const hasSearchAnim = updated.some((p: Project) => p.id === 'proj-yt-qot3r6dlgzg');
           if (!hasSearchAnim && searchAnimProj) {
             const firstVideoIdx = updated.findIndex((p: Project) => p.category === 'video');
             if (firstVideoIdx >= 0) {
-              updated.splice(firstVideoIdx, 0, searchAnimProj);
+              updated.splice(firstVideoIdx + 2, 0, searchAnimProj);
             } else {
               updated.unshift(searchAnimProj);
             }
@@ -139,7 +240,7 @@ export default function App() {
   // Sync projects to localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('portfolio_user_projects_v26', JSON.stringify(projects));
+      localStorage.setItem('portfolio_user_projects_v31', JSON.stringify(projects));
     } catch {
       // ignore
     }

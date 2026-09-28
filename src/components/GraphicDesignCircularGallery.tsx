@@ -223,9 +223,14 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                       alt={project.title}
                       referrerPolicy="no-referrer"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')
-                          ? '/projects/behance/256189277_original_cover.jpg'
-                          : '/projects/shoe-mockup.webp';
+                        const target = e.target as HTMLImageElement;
+                        if (project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')) {
+                          target.src = '/projects/behance/256189277_original_cover.jpg';
+                        } else if (project.id === 'proj-behance-256347017') {
+                          target.src = 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/3bc74f256347017.Y3JvcCwxMDgwLDg0NCwwLDExNw.png';
+                        } else {
+                          target.src = '/projects/shoe-mockup.webp';
+                        }
                       }}
                       className={`w-full h-full object-cover group-hover:scale-115 transition-transform duration-700 select-none ${
                         project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')
@@ -355,7 +360,12 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                         alt={selectedProject.title}
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/projects/shoe-mockup.webp';
+                          const target = e.target as HTMLImageElement;
+                          if (selectedProject.id === 'proj-behance-256347017') {
+                            target.src = 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/3bc74f256347017.Y3JvcCwxMDgwLDg0NCwwLDExNw.png';
+                          } else {
+                            target.src = '/projects/shoe-mockup.webp';
+                          }
                         }}
                         className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
                       />
@@ -474,8 +484,8 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                 </div>
 
                 <div className="flex items-center gap-2">
-                  {/* Mode switch for Behance CV */}
-                  {(selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design')) && (
+                  {/* Mode switch for Behance projects with embed widget */}
+                  {(selectedProject.id === 'proj-behance-256189277' || selectedProject.videoUrl?.includes('behance.net')) && (
                     <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-700 mr-1">
                       <button
                         type="button"
@@ -487,7 +497,7 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                         }`}
                       >
                         <FileText className="w-3.5 h-3.5" />
-                        <span>সম্পূর্ণ সিভি</span>
+                        <span>{selectedProject.id === 'proj-behance-256189277' ? 'সম্পূর্ণ সিভি' : 'ডিজাইন ভিউ'}</span>
                       </button>
                       <button
                         type="button"
@@ -605,9 +615,14 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                       alt={selectedProject.title}
                       referrerPolicy="no-referrer"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = (selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design'))
-                          ? '/projects/behance/256189277_original_cover.jpg'
-                          : '/projects/shoe-mockup.webp';
+                        const target = e.target as HTMLImageElement;
+                        if (selectedProject.id === 'proj-behance-256189277' || selectedProject.tags?.includes('CV Design')) {
+                          target.src = '/projects/behance/256189277_original_cover.jpg';
+                        } else if (selectedProject.id === 'proj-behance-256347017') {
+                          target.src = 'https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/3bc74f256347017.Y3JvcCwxMDgwLDg0NCwwLDExNw.png';
+                        } else {
+                          target.src = '/projects/shoe-mockup.webp';
+                        }
                       }}
                       className={`object-contain rounded-2xl shadow-2xl transition-all duration-300 select-none ${
                         isZoomed

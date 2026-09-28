@@ -1,6 +1,7 @@
 import { Project, SkillCategory, UserProfile } from '../types';
 import profilePhoto from '../assets/images/profile.jpg';
 import cvOriginalPhoto from '../assets/images/hasanullah_cv_original_256189277.jpg';
+import socialMediaPostPhoto from '../assets/images/256347017_social_media_post_design.png';
 
 export const USER_PROFILE: UserProfile = {
   name: 'Hasanullah',
@@ -38,6 +39,21 @@ export const INITIAL_PROJECTS: Project[] = [
     featured: true,
     aspectRatio: 'portrait',
     metrics: 'Official Behance CV'
+  },
+  {
+    id: 'proj-behance-256347017',
+    title: 'Social Media Post Design',
+    category: 'graphic',
+    categoryLabel: 'Graphic Design',
+    description: 'Eye-catching creative social media post and promotional banner design published on Behance.',
+    image: socialMediaPostPhoto || '/projects/behance/256347017_social_media_post_design.png',
+    videoUrl: 'https://www.behance.net/embed/project/256347017?ilo0=1',
+    tags: ['Social Media', 'Post Design', 'Photoshop', 'Illustrator', 'Branding'],
+    toolsUsed: ['Photoshop', 'Illustrator'],
+    liveUrl: 'https://www.behance.net/gallery/256347017/Socil-Mida-Post-Design',
+    featured: true,
+    aspectRatio: 'landscape',
+    metrics: 'Latest Behance Post'
   },
   {
     id: 'proj-behance-255854321',
@@ -221,6 +237,81 @@ export const INITIAL_PROJECTS: Project[] = [
   },
 
   // --- Video Editing & Reels ---
+  {
+    id: 'proj-yt-qxen-mars',
+    title: 'Ai Generate Ad Video',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'High-impact AI-generated commercial advertisement video featuring cutting-edge generative visuals, dynamic camera movement, cinematic color grading, and commercial storytelling.',
+    image: 'https://i.ytimg.com/vi/-_QXeN-MArs/maxresdefault.jpg',
+    videoUrl: 'https://youtu.be/-_QXeN-MArs',
+    tags: ['AI Ad Video', 'Commercial', 'AI Generation', 'Video Editing', 'Motion Design'],
+    toolsUsed: ['Runway', 'Midjourney', 'After Effects', 'Premiere Pro'],
+    liveUrl: 'https://youtu.be/-_QXeN-MArs',
+    featured: true,
+    aspectRatio: 'landscape',
+    metrics: 'AI Commercial Ad'
+  },
+  {
+    id: 'proj-yt-xy94oyggcee',
+    title: 'AI Generate Video',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'Cinematic AI video generation and visual storytelling with futuristic motion design, dynamic scene composition, and high-impact pacing.',
+    image: 'https://i.ytimg.com/vi/xy94oYGGCeE/maxresdefault.jpg',
+    videoUrl: 'https://youtu.be/xy94oYGGCeE',
+    tags: ['AI Video', 'AI Generation', 'Motion Graphics', 'Video Editing', 'Cinematic'],
+    toolsUsed: ['Runway', 'Midjourney', 'After Effects', 'Premiere Pro'],
+    liveUrl: 'https://youtu.be/xy94oYGGCeE',
+    featured: true,
+    aspectRatio: 'landscape',
+    metrics: 'Official YouTube Video'
+  },
+  {
+    id: 'proj-yt-shorts-rtexdizqg00',
+    title: 'Product Motion Video',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'Dynamic 9:16 vertical commercial product motion animation featuring 3D product camera sweeps, slick lighting effects, and social retention cuts.',
+    image: 'https://i.ytimg.com/vi/rtexdiZQg00/maxresdefault.jpg',
+    videoUrl: 'https://youtube.com/shorts/rtexdiZQg00?feature=share',
+    tags: ['Product Motion', 'Commercial', 'YouTube Shorts', '3D Motion', 'After Effects'],
+    toolsUsed: ['After Effects', 'Premiere Pro', 'Blender'],
+    liveUrl: 'https://youtube.com/shorts/rtexdiZQg00?feature=share',
+    featured: true,
+    aspectRatio: 'portrait',
+    metrics: '9:16 YouTube Shorts'
+  },
+  {
+    id: 'proj-yt-bvvjh2w1-ii',
+    title: 'Motion Graphics',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'Dynamic motion graphics showcase highlighting kinetic typography, 3D visual effects, smooth transitions, and creative animation choreography.',
+    image: 'https://i.ytimg.com/vi/BvVJH2w1-iI/hqdefault.jpg',
+    videoUrl: 'https://youtu.be/BvVJH2w1-iI',
+    tags: ['Motion Graphics', 'After Effects', 'Animation', 'Visual Effects', 'Kinetic'],
+    toolsUsed: ['After Effects', 'Premiere Pro', 'Illustrator'],
+    liveUrl: 'https://youtu.be/BvVJH2w1-iI',
+    featured: true,
+    aspectRatio: 'landscape',
+    metrics: 'YouTube Video'
+  },
+  {
+    id: 'proj-yt-jdb0a-zdbrk',
+    title: 'UI Motion',
+    category: 'video',
+    categoryLabel: 'Video Editing',
+    description: 'Sleek UI/UX motion interaction showcase featuring fluid app transitions, interactive micro-animations, and modern digital interface presentation.',
+    image: 'https://i.ytimg.com/vi/jDB0A-zdBRk/maxresdefault.jpg',
+    videoUrl: 'https://youtu.be/jDB0A-zdBRk?si=-nxpKqe6TyhVl1OL',
+    tags: ['UI Motion', 'Micro-interactions', 'After Effects', 'UI/UX Design', 'Product Motion'],
+    toolsUsed: ['After Effects', 'Figma', 'Premiere Pro'],
+    liveUrl: 'https://youtu.be/jDB0A-zdBRk?si=-nxpKqe6TyhVl1OL',
+    featured: true,
+    aspectRatio: 'landscape',
+    metrics: 'UI Animation'
+  },
   {
     id: 'proj-yt-qot3r6dlgzg',
     title: 'Search Animation',

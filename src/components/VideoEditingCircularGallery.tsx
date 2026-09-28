@@ -402,7 +402,20 @@ export const VideoEditingCircularGallery: React.FC<VideoEditingCircularGalleryPr
                         alt={selectedProject.title}
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/projects/motion-graphics-showreel.jpg';
+                          const target = e.target as HTMLImageElement;
+                          if (selectedProject.id === 'proj-yt-qxen-mars') {
+                            target.src = 'https://i.ytimg.com/vi/-_QXeN-MArs/hqdefault.jpg';
+                          } else if (selectedProject.id === 'proj-yt-xy94oyggcee') {
+                            target.src = 'https://i.ytimg.com/vi/xy94oYGGCeE/hqdefault.jpg';
+                          } else if (selectedProject.id === 'proj-yt-shorts-rtexdizqg00') {
+                            target.src = 'https://i.ytimg.com/vi/rtexdiZQg00/hqdefault.jpg';
+                          } else if (selectedProject.id === 'proj-yt-bvvjh2w1-ii') {
+                            target.src = 'https://i.ytimg.com/vi/BvVJH2w1-iI/hqdefault.jpg';
+                          } else if (selectedProject.id === 'proj-yt-jdb0a-zdbrk') {
+                            target.src = 'https://i.ytimg.com/vi/jDB0A-zdBRk/maxresdefault.jpg';
+                          } else {
+                            target.src = '/projects/motion-graphics-showreel.jpg';
+                          }
                         }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -524,7 +537,20 @@ export const VideoEditingCircularGallery: React.FC<VideoEditingCircularGalleryPr
                         alt={project.title}
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/projects/motion-graphics-showreel.jpg';
+                          const target = e.target as HTMLImageElement;
+                          if (project.id === 'proj-yt-qxen-mars') {
+                            target.src = 'https://i.ytimg.com/vi/-_QXeN-MArs/hqdefault.jpg';
+                          } else if (project.id === 'proj-yt-xy94oyggcee') {
+                            target.src = 'https://i.ytimg.com/vi/xy94oYGGCeE/hqdefault.jpg';
+                          } else if (project.id === 'proj-yt-shorts-rtexdizqg00') {
+                            target.src = 'https://i.ytimg.com/vi/rtexdiZQg00/hqdefault.jpg';
+                          } else if (project.id === 'proj-yt-bvvjh2w1-ii') {
+                            target.src = 'https://i.ytimg.com/vi/BvVJH2w1-iI/hqdefault.jpg';
+                          } else if (project.id === 'proj-yt-jdb0a-zdbrk') {
+                            target.src = 'https://i.ytimg.com/vi/jDB0A-zdBRk/maxresdefault.jpg';
+                          } else {
+                            target.src = '/projects/motion-graphics-showreel.jpg';
+                          }
                         }}
                         className="w-full h-full object-cover object-center group-hover:scale-115 transition-transform duration-700 select-none"
                       />
