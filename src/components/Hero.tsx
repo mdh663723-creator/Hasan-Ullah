@@ -82,30 +82,18 @@ export const Hero: React.FC<HeroProps> = ({ profile, onViewShowcase, onUpdateAva
           </div>
 
           {/* Main Headline */}
-          <div className="group/hero-title inline-block transition-all duration-300 mb-3">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.18]">
-              <span className="inline-block mr-3 sm:mr-4 transition-all duration-300 text-white">
+          <div className="group/hero-title flex flex-col items-center transition-all duration-300 mb-3">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-none sm:leading-tight">
+              <span className="inline-block mr-2.5 sm:mr-4 transition-all duration-300 text-white">
                 Hi, I'm
               </span>
               <span className="relative inline-block bg-gradient-to-r from-sky-400 via-sky-300 to-blue-400 bg-clip-text text-transparent underline decoration-sky-400/80 decoration-wavy decoration-2">
                 {profile.name}
               </span>
-              <br />
-              <span className="text-2xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-slate-100 via-indigo-200 to-purple-300 bg-clip-text text-transparent inline-block mt-1">
-                Graphic Designer & Video Editor
-              </span>
             </h1>
-          </div>
-
-          {/* Subtext */}
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl leading-relaxed font-normal mb-3">
-            {profile.tagline}
-          </p>
-
-          {/* Special AI Automation Learning Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-purple-950/60 border border-purple-800/80 text-purple-200 text-xs sm:text-sm font-medium shadow-md">
-            <Bot className="w-4 h-4 text-purple-400 animate-pulse" />
-            <span>Currently Learning: <strong className="text-purple-300 font-bold">AI Automation & Smart Workflows</strong></span>
+            <p className="text-base sm:text-xl lg:text-2xl font-semibold bg-gradient-to-r from-slate-200 via-indigo-200 to-sky-300 bg-clip-text text-transparent tracking-normal mt-1 sm:mt-1.5">
+              Graphic Designer & Video Editor
+            </p>
           </div>
         </div>
 

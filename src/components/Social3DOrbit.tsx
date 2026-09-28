@@ -9,11 +9,7 @@ import {
   BehanceIcon
 } from './SocialIcons';
 import {
-  ExternalLink,
-  MoveVertical,
-  CheckCircle2,
-  Play,
-  Pause
+  ExternalLink
 } from 'lucide-react';
 
 export interface Social3DOrbitProps {
@@ -51,10 +47,8 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
   const behanceUrl = profile.behanceUrl || 'https://www.behance.net/hasanullah88';
 
   // Rotation & State
-  const [isAutoRotating, setIsAutoRotating] = useState<boolean>(true);
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
   const [activeItem, setActiveItem] = useState<OrbitItem | null>(null);
-  const [displayScalePercent, setDisplayScalePercent] = useState<number>(100);
   const [isProfileHovered, setIsProfileHovered] = useState<boolean>(false);
 
   // Dynamic Scale: small to large based on cursor Y (top to bottom)
@@ -232,9 +226,8 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
     };
   }, [handlePointerVerticalMove]);
 
-  // Keep ref sync with states
-  const isAutoRotatingRef = useRef(isAutoRotating);
-  isAutoRotatingRef.current = isAutoRotating;
+  // Continuous auto-rotation ref
+  const isAutoRotatingRef = useRef(true);
 
   // Direct DOM updates for butter-smooth 60-120fps rotation and scale
   const updateItemPositions = useCallback(() => {
@@ -354,10 +347,6 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
       }
 
       updateItemPositions();
-
-      if (tickCount % 12 === 0) {
-        setDisplayScalePercent(Math.round(currentScaleRef.current * 100));
-      }
 
       animFrameIdRef.current = requestAnimationFrame(loop);
     };
@@ -525,7 +514,7 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
             e.stopPropagation();
             onExploreProjects?.();
           }}
-          title={`${profile.name} - মাউস নিলে জুম ইন হয় • ক্লিক করে শোকেস দেখুন`}
+          title={profile.name}
           className="group pointer-events-auto cursor-pointer absolute top-1/2 left-1/2 flex flex-col items-center justify-center select-none z-35"
           style={{
             transform: 'translate(-50%, -50%) scale(1)'
@@ -661,38 +650,6 @@ export const Social3DOrbit: React.FC<Social3DOrbitProps> = ({
               </div>
             </a>
           ))}
-        </div>
-      </div>
-
-      {/* Floating Interactive Guide & Controls Bar in Clean Space */}
-      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-1 text-xs text-slate-400">
-        {/* Dynamic Scale Indicator for Top-to-Bottom Cursor Movement */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-sky-500/30 text-slate-300 backdrop-blur-md shadow-sm">
-          <MoveVertical className="w-3.5 h-3.5 text-sky-400 animate-bounce" />
-          <span className="text-slate-300 font-medium">
-            কার্সার উপর থেকে নিচে নিলে ছোট-বড় হবে (<span className="text-sky-400 font-bold">{displayScalePercent}%</span>)
-          </span>
-        </div>
-
-        {/* Rotate Play / Pause Toggle */}
-        <button
-          type="button"
-          onClick={() => setIsAutoRotating(!isAutoRotating)}
-          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold backdrop-blur-md transition-all ${
-            isAutoRotating
-              ? 'bg-slate-900/80 border-slate-700 text-slate-300 hover:text-white'
-              : 'bg-amber-950/60 border-amber-600/50 text-amber-300'
-          }`}
-          title={isAutoRotating ? 'Pause rotation' : 'Resume rotation'}
-        >
-          {isAutoRotating ? <Pause className="w-3 h-3 text-sky-400" /> : <Play className="w-3 h-3 text-amber-400" />}
-          <span>{isAutoRotating ? '৩D রোটেশন চলছে' : 'পজ করা'}</span>
-        </button>
-
-        {/* Direct Link Hint with Peek Note */}
-        <div className="hidden sm:inline-flex items-center gap-1.5 text-slate-300 font-medium">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>মাউস নিলে আইকন মাথা তুলে দেখবে • ক্লিক করলে সরাসরি প্রোফাইল ওপেন</span>
         </div>
       </div>
     </div>

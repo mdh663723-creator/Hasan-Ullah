@@ -252,11 +252,8 @@ export const ToolsMarqueeSlider: React.FC<{ className?: string }> = ({ className
           <div className="p-1.5 rounded-lg bg-sky-500/20 border border-sky-400/50 shadow-sm shadow-sky-500/30">
             <Video className="w-4 h-4 text-sky-300 animate-pulse" />
           </div>
-          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white flex items-center gap-2">
-            <span>Specialized Tools & Software</span>
-            <span className="text-sky-400 font-normal lowercase hidden sm:inline">
-              • মাউস নিলে আইকন মাথা তুলে দেখবে (Peeking Head Effect)
-            </span>
+          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white">
+            Specialized Tools & Software
           </span>
         </div>
 
