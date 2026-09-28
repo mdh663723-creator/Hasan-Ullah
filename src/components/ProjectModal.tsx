@@ -491,23 +491,25 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           {/* Title & Metrics */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-900 text-sky-400 border border-slate-700">
-                  {project.categoryLabel}
-                </span>
-                {project.videoUrl && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-950/80 text-purple-300 border border-purple-800/80">
-                    <Video className="w-3 h-3 text-purple-400" />
-                    Video Project
+              {project.category !== 'video' && project.category !== 'graphic' && (
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-900 text-sky-400 border border-slate-700">
+                    {project.categoryLabel}
                   </span>
-                )}
-              </div>
+                  {project.videoUrl && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-950/80 text-purple-300 border border-purple-800/80">
+                      <Video className="w-3 h-3 text-purple-400" />
+                      Video Project
+                    </span>
+                  )}
+                </div>
+              )}
               <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                 {project.title}
               </h3>
             </div>
 
-            {project.metrics && (
+            {project.metrics && project.category !== 'video' && project.category !== 'graphic' && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs font-semibold text-sky-300 self-start sm:self-auto">
                 <Sparkles className="w-3.5 h-3.5 text-sky-400 shrink-0" />
                 <span>{project.metrics}</span>
@@ -516,27 +518,31 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           </div>
 
           {/* Description */}
-          <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
-            {project.description}
-          </p>
+          {project.category !== 'video' && project.category !== 'graphic' && (
+            <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
+              {project.description}
+            </p>
+          )}
 
           {/* Tools & Tags */}
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-              Tools & Software
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {(project.toolsUsed && project.toolsUsed.length > 0 ? project.toolsUsed : project.tags).map((tag, idx) => (
-                <span
-                  key={idx}
-                  className="px-2.5 py-1 text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 rounded-lg flex items-center gap-1.5"
-                >
-                  <CheckCircle2 className="w-3 h-3 text-sky-400" />
-                  {tag}
-                </span>
-              ))}
+          {project.category !== 'video' && project.category !== 'graphic' && (
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                Tools & Software
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {(project.toolsUsed && project.toolsUsed.length > 0 ? project.toolsUsed : project.tags).map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2.5 py-1 text-xs font-medium text-slate-200 bg-slate-900 border border-slate-800 rounded-lg flex items-center gap-1.5"
+                  >
+                    <CheckCircle2 className="w-3 h-3 text-sky-400" />
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Action Link Buttons */}
           <div className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center gap-3">

@@ -242,41 +242,17 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                       <div className="w-10 h-10 rounded-full bg-gradient-to-r from-amber-400 to-sky-400 text-slate-950 flex items-center justify-center shadow-lg transform scale-80 group-hover:scale-100 transition-transform">
                         <Maximize2 className="w-5 h-5 font-black" />
                       </div>
-                      <span className="text-[10px] font-extrabold text-white mt-1">
-                        {isSelected ? 'ক্লিক করে বড় দেখুন' : 'সিলেক্ট করুন'}
-                      </span>
-                    </div>
-
-                    {/* Circular Item Badge */}
-                    <div className="absolute top-2.5 left-1/2 -translate-x-1/2">
-                      <span className={`px-2 py-0.5 rounded-full border text-[10px] font-extrabold backdrop-blur-md ${
-                        project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')
-                          ? 'bg-amber-400 text-slate-950 border-amber-300 font-black shadow-md'
-                          : 'bg-black/80 border-white/20 text-sky-300'
-                      }`}>
-                        {project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design') ? '📄 প্রফেশনাল সিভি' : `#${idx + 1}`}
-                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Title and Badge below the Circle */}
-                <div className="mt-4 px-2 w-full">
-                  <p className={`text-sm font-bold truncate transition-colors ${
-                    isSelected ? 'text-sky-300 font-extrabold' : 'text-slate-200 group-hover:text-amber-300'
+                {/* Title below the Circle */}
+                <div className="mt-3 px-1 w-full text-center">
+                  <p className={`text-xs sm:text-sm font-bold line-clamp-2 transition-colors ${
+                    isSelected ? 'text-amber-300 font-extrabold' : 'text-slate-200 group-hover:text-amber-300'
                   }`}>
                     {project.title}
                   </p>
-                  <div className="mt-1 flex items-center justify-center gap-1.5 flex-wrap">
-                    <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-amber-950/60 text-amber-300 border border-amber-800/40">
-                      {project.toolsUsed?.[0] || 'Photoshop'}
-                    </span>
-                    {isSelected && (
-                      <span className="px-2 py-0.5 text-[10px] font-bold rounded-md bg-sky-900/60 text-sky-300 border border-sky-700/60">
-                        সক্রিয় (ক্লিক করে বড় দেখুন)
-                      </span>
-                    )}
-                  </div>
                 </div>
               </div>
             );
@@ -354,15 +330,9 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 rounded-2xl backdrop-blur-xs">
                         <div className="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2 shadow-2xl transform scale-90 group-hover:scale-100 transition-transform">
                           <Maximize2 className="w-4 h-4 text-slate-950" />
-                          <span>📄 সম্পূর্ণ সিভি বড় করে পড়ুন</span>
+                          <span>বড় করে দেখুন</span>
                         </div>
                       </div>
-                    </div>
-
-                    {/* Top CV Document Tag */}
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[11px] font-black shadow-lg border border-amber-300 flex items-center gap-1.5 whitespace-nowrap">
-                      <FileText className="w-3.5 h-3.5 text-slate-950" />
-                      <span>সম্পূর্ণ ১-পৃষ্ঠা এ৪ সিভি (ফুল ডকুমেন্ট)</span>
                     </div>
                   </motion.div>
                 ) : (
@@ -403,12 +373,6 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                     </div>
                   </motion.div>
                 )}
-
-                {/* Subtitle / Hint under Spotlight */}
-                <p className="text-xs text-slate-400 mt-4 flex items-center gap-1.5 cursor-pointer hover:text-amber-300 transition-colors" onClick={() => setIsBigViewOpen(true)}>
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  <span>হাই-রেজোলিউশনে সম্পূর্ণ পড়তে ছবির উপর ক্লিক করুন</span>
-                </p>
               </div>
 
               {/* Right Column: Project Details & Action Buttons (একদিক থেকে মসৃণভাবে আসে) */}
@@ -419,48 +383,9 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                 className="lg:col-span-7 flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="px-3 py-1 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase tracking-wider">
-                      {selectedProject.categoryLabel || 'Graphic Design'}
-                    </span>
-                    {selectedProject.metrics && (
-                      <span className="px-3 py-1 rounded-xl bg-sky-950/60 border border-sky-800/60 text-sky-300 text-xs font-semibold">
-                        {selectedProject.metrics}
-                      </span>
-                    )}
-                    <span className="px-2.5 py-1 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold ml-auto">
-                      ডিজাইন #{currentIndex + 1}
-                    </span>
-                  </div>
-
                   <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
                     {selectedProject.title}
                   </h3>
-
-                  <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
-                    {selectedProject.description}
-                  </p>
-
-                  {/* Tools & Tags */}
-                  <div className="mt-5">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                      ব্যবহৃত সফটওয়্যার ও টুলস:
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {(selectedProject.toolsUsed && selectedProject.toolsUsed.length > 0
-                        ? selectedProject.toolsUsed
-                        : selectedProject.tags
-                      ).map((tool, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 text-xs font-bold rounded-xl bg-slate-800 text-sky-300 border border-slate-700 flex items-center gap-1.5"
-                        >
-                          <Palette className="w-3 h-3 text-amber-400" />
-                          <span>{tool}</span>
-                        </span>
-                      ))}
-                    </div>
-                  </div>
                 </div>
 
                 {/* Bottom Action Buttons */}
@@ -702,20 +627,6 @@ export const GraphicDesignCircularGallery: React.FC<GraphicDesignCircularGallery
                   <h3 className="text-lg sm:text-xl font-black text-white">
                     {selectedProject.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 mt-1 line-clamp-2">
-                    {selectedProject.description}
-                  </p>
-                  {/* Tools */}
-                  <div className="flex flex-wrap gap-1.5 mt-2.5">
-                    {(selectedProject.toolsUsed || selectedProject.tags || []).map((t, i) => (
-                      <span
-                        key={i}
-                        className="px-2.5 py-0.5 text-xs font-semibold rounded-lg bg-slate-800 text-amber-300 border border-slate-700"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="flex items-center gap-3 shrink-0">

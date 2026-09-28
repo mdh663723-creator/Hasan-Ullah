@@ -324,209 +324,139 @@ export const VideoEditingCircularGallery: React.FC<VideoEditingCircularGalleryPr
               {/* Ambient lighting */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-                {/* Video Screen Column (Takes prime spot on the left/center) */}
-                <div className="lg:col-span-7 flex flex-col items-center justify-center">
-                  <div
-                    ref={spotlightVideoRef}
-                    className="relative w-full rounded-2xl overflow-hidden bg-black border-2 border-purple-500/50 shadow-2xl shadow-purple-500/20 flex flex-col items-center justify-center group"
-                  >
-                    {isPlayingInline ? (
-                      // Video Player in Exact Aspect Ratio (No cutoff!)
-                      <div className={`w-full flex items-center justify-center ${
-                        isCurrentProjectPortrait ? 'max-w-[320px] aspect-[9/16]' : 'aspect-video'
-                      }`}>
-                        {embedUrl ? (
-                          <iframe
-                            src={embedUrl}
-                            title={selectedProject.title}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                            allowFullScreen
-                            referrerPolicy="strict-origin-when-cross-origin"
-                            className="w-full h-full border-0 block"
-                          />
-                        ) : isDirectVideo ? (
-                          <video
-                            src={selectedProject.videoUrl}
-                            controls
-                            autoPlay
-                            playsInline
-                            className="w-full h-full object-contain"
-                          />
-                        ) : null}
-                      </div>
-                    ) : (
-                      // Preview Screen with Big Instant Play Overlay
-                      <div
-                        onClick={() => setIsPlayingInline(true)}
-                        className={`relative w-full cursor-pointer overflow-hidden ${
-                          isCurrentProjectPortrait ? 'max-w-[320px] aspect-[9/16]' : 'aspect-video'
-                        }`}
-                      >
-                        <img
-                          src={selectedProject.image}
-                          alt={selectedProject.title}
-                          referrerPolicy="no-referrer"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/projects/motion-graphics-showreel.jpg';
-                          }}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-
-                        {/* Dark Vignette */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-
-                        {/* Top Live Badge */}
-                        <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                          <span className={`px-2.5 py-1 rounded-full text-xs font-bold border backdrop-blur-md ${
-                            isCurrentProjectPortrait
-                              ? 'bg-pink-950/80 text-pink-300 border-pink-500/40'
-                              : 'bg-purple-950/80 text-purple-300 border-purple-500/40'
-                          }`}>
-                            {isCurrentProjectPortrait ? '📱 ৯:১৬ রিলস' : '🖥️ ১৬:৯ ফুল এইচডি'}
-                          </span>
-                          <span className="px-2.5 py-1 rounded-full bg-black/80 text-xs font-bold text-slate-300 border border-white/10 backdrop-blur-md">
-                            সক্রিয় ভিডিও
-                          </span>
-                        </div>
-
-                        {/* Big Pulsing Center Play Button */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-gradient-to-r from-purple-500 via-indigo-500 to-pink-500 text-white flex items-center justify-center shadow-[0_0_40px_rgba(168,85,247,0.8)] transform scale-100 group-hover:scale-110 transition-transform animate-pulse">
-                            <Play className="w-8 h-8 sm:w-9 sm:h-9 fill-white text-white ml-1 drop-shadow-lg" />
-                          </div>
-                          <span className="mt-3 px-4 py-1.5 rounded-full bg-black/80 border border-white/20 text-xs sm:text-sm font-extrabold text-white tracking-wide shadow-lg group-hover:bg-purple-600 transition-colors">
-                            ▶ এখানে সরাসরি প্লে করুন
-                          </span>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Player Controls Bar */}
-                    <div className="w-full p-2.5 bg-slate-950 border-t border-slate-800 flex items-center justify-between gap-2 text-xs">
-                      {isPlayingInline ? (
-                        <button
-                          onClick={() => setIsPlayingInline(false)}
-                          type="button"
-                          className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
-                        >
-                          <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
-                          <span>থাম্বনেইলে ফিরুন</span>
-                        </button>
-                      ) : (
-                        <span className="text-slate-400 text-xs flex items-center gap-1">
-                          <Volume2 className="w-3.5 h-3.5 text-purple-400" />
-                          <span>HD 1080p কোয়ালিটি</span>
-                        </span>
-                      )}
-
-                      <div className="flex items-center gap-2">
-                        {isPlayingInline && (
-                          <button
-                            onClick={handleFullscreenSpotlight}
-                            type="button"
-                            className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 transition-colors px-2 py-1 rounded-md bg-slate-900 border border-slate-800"
-                            title="ফুল স্ক্রিন করুন"
-                          >
-                            <Expand className="w-3.5 h-3.5" />
-                            <span>ফুল স্ক্রিন</span>
-                          </button>
-                        )}
-                        <button
-                          onClick={() => onOpenProjectModal(selectedProject)}
-                          type="button"
-                          className="inline-flex items-center gap-1 text-purple-300 hover:text-white transition-colors px-2 py-1 rounded-md bg-purple-950/60 border border-purple-800/60"
-                        >
-                          <Maximize2 className="w-3.5 h-3.5" />
-                          <span>মডালে বিস্তারিত</span>
-                        </button>
-                      </div>
-                    </div>
+              {/* Title Header directly with the video */}
+              <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-purple-500/20">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400 shrink-0">
+                    <Film className="w-5 h-5" />
                   </div>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                    {selectedProject.title}
+                  </h3>
                 </div>
 
-                {/* Right Info Column: Video Details & Quick Actions */}
-                <div className="lg:col-span-5 flex flex-col justify-between">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2 mb-3">
-                      <span className="px-3 py-1 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 text-xs font-bold uppercase tracking-wider">
-                        {selectedProject.categoryLabel || 'Video Editing'}
-                      </span>
-                      <span className={`px-3 py-1 rounded-xl text-xs font-semibold border ${
-                        isCurrentProjectPortrait
-                          ? 'bg-pink-950/60 border-pink-800/60 text-pink-300'
-                          : 'bg-sky-950/60 border-sky-800/60 text-sky-300'
-                      }`}>
-                        {isCurrentProjectPortrait ? '📱 ৯:১৬ রিলস ও শর্টস' : '🖥️ ১৬:৯ ল্যান্ডস্কেপ মোশন'}
-                      </span>
-                      {selectedProject.metrics && (
-                        <span className="px-2.5 py-1 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 text-xs font-bold">
-                          {selectedProject.metrics}
-                        </span>
-                      )}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => onOpenProjectModal(selectedProject)}
+                    type="button"
+                    className="inline-flex items-center gap-1.5 text-purple-300 hover:text-white transition-colors px-3 py-1.5 rounded-xl bg-purple-950/60 border border-purple-800/60 text-xs font-semibold"
+                  >
+                    <Maximize2 className="w-3.5 h-3.5" />
+                    <span>ফুল স্ক্রিন প্রিভিউ</span>
+                  </button>
+
+                  {selectedProject.liveUrl && (
+                    <a
+                      href={selectedProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors"
+                    >
+                      <span>সরাসরি লিঙ্ক</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-sky-400" />
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Theater Video Player Screen (Center Stage - Crisp & Uncut) */}
+              <div className="relative z-10 flex flex-col items-center justify-center">
+                <div
+                  ref={spotlightVideoRef}
+                  className="relative w-full max-w-4xl rounded-2xl overflow-hidden bg-black border-2 border-purple-500/50 shadow-2xl shadow-purple-500/20 flex flex-col items-center justify-center group"
+                >
+                  {isPlayingInline ? (
+                    // Video Player in Exact Aspect Ratio (No cutoff!)
+                    <div className={`w-full flex items-center justify-center ${
+                      isCurrentProjectPortrait ? 'max-w-[340px] aspect-[9/16]' : 'aspect-video'
+                    }`}>
+                      {embedUrl ? (
+                        <iframe
+                          src={embedUrl}
+                          title={selectedProject.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                          allowFullScreen
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          className="w-full h-full border-0 block"
+                        />
+                      ) : isDirectVideo ? (
+                        <video
+                          src={selectedProject.videoUrl}
+                          controls
+                          autoPlay
+                          playsInline
+                          className="w-full h-full object-contain"
+                        />
+                      ) : null}
                     </div>
+                  ) : (
+                    // Preview Screen with Instant Play
+                    <div
+                      onClick={() => setIsPlayingInline(true)}
+                      className={`relative w-full cursor-pointer overflow-hidden ${
+                        isCurrentProjectPortrait ? 'max-w-[340px] aspect-[9/16]' : 'aspect-video'
+                      }`}
+                    >
+                      <img
+                        src={selectedProject.image}
+                        alt={selectedProject.title}
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/projects/motion-graphics-showreel.jpg';
+                        }}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
 
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                      {selectedProject.title}
-                    </h3>
+                      {/* Dark Vignette */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
 
-                    <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-                      {selectedProject.description}
-                    </p>
-
-                    {/* Tools Used */}
-                    <div className="mt-5">
-                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                        ব্যবহৃত সফটওয়্যার ও স্কিল:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {(selectedProject.toolsUsed && selectedProject.toolsUsed.length > 0
-                          ? selectedProject.toolsUsed
-                          : selectedProject.tags
-                        ).map((tool, i) => (
-                          <span
-                            key={i}
-                            className="px-3 py-1 text-xs font-bold rounded-xl bg-slate-800 text-purple-300 border border-slate-700 flex items-center gap-1.5"
-                          >
-                            <Video className="w-3 h-3 text-purple-400" />
-                            <span>{tool}</span>
-                          </span>
-                        ))}
+                      {/* Big Center Play Button */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-gradient-to-r from-purple-500 via-indigo-500 to-pink-500 text-white flex items-center justify-center shadow-[0_0_40px_rgba(168,85,247,0.8)] transform scale-100 group-hover:scale-110 transition-transform animate-pulse">
+                          <Play className="w-8 h-8 sm:w-9 sm:h-9 fill-white text-white ml-1 drop-shadow-lg" />
+                        </div>
+                        <span className="mt-3 px-4 py-1.5 rounded-full bg-black/80 border border-white/20 text-xs sm:text-sm font-extrabold text-white tracking-wide shadow-lg group-hover:bg-purple-600 transition-colors">
+                          ▶ সরাসরি প্লে করুন
+                        </span>
                       </div>
                     </div>
-                  </div>
+                  )}
 
-                  {/* Bottom Buttons */}
-                  <div className="mt-8 pt-6 border-t border-slate-800 flex flex-wrap items-center gap-3">
-                    <button
-                      onClick={() => setIsPlayingInline(true)}
-                      type="button"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-extrabold text-white bg-gradient-to-r from-purple-500 via-indigo-600 to-pink-600 hover:from-purple-600 hover:to-indigo-700 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all hover:scale-102 active:scale-98 cursor-pointer"
-                    >
-                      <Play className="w-4 h-4 fill-white text-white" />
-                      <span>{isPlayingInline ? 'চলমান রয়েছে ▶' : 'উপরে সরাসরি প্লে করুন'}</span>
-                    </button>
-
-                    {selectedProject.liveUrl && (
-                      <a
-                        href={selectedProject.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-extrabold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 shadow-md transition-all hover:scale-102 active:scale-98"
+                  {/* Player Controls Bar */}
+                  <div className="w-full p-2.5 bg-slate-950 border-t border-slate-800 flex items-center justify-between gap-2 text-xs">
+                    {isPlayingInline ? (
+                      <button
+                        onClick={() => setIsPlayingInline(false)}
+                        type="button"
+                        className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
                       >
-                        <span>সরাসরি লিঙ্ক</span>
-                        <ExternalLink className="w-4 h-4 text-sky-400" />
-                      </a>
+                        <RotateCcw className="w-3.5 h-3.5 text-purple-400" />
+                        <span>থাম্বনেইলে ফিরুন</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setIsPlayingInline(true)}
+                        type="button"
+                        className="inline-flex items-center gap-1.5 text-purple-300 hover:text-white transition-colors"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-purple-400 text-purple-400" />
+                        <span>ভিডিও প্লে করুন</span>
+                      </button>
                     )}
 
-                    <button
-                      onClick={handleNext}
-                      type="button"
-                      className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl text-xs font-bold text-purple-400 hover:text-purple-300 bg-slate-900/90 hover:bg-slate-800 border border-slate-800 transition-colors ml-auto"
-                    >
-                      <span>পরবর্তী ভিডিও</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      {isPlayingInline && (
+                        <button
+                          onClick={handleFullscreenSpotlight}
+                          type="button"
+                          className="inline-flex items-center gap-1 text-sky-400 hover:text-sky-300 transition-colors px-2 py-1 rounded-md bg-slate-900 border border-slate-800"
+                          title="ফুল স্ক্রিন করুন"
+                        >
+                          <Expand className="w-3.5 h-3.5" />
+                          <span>ফুল স্ক্রিন</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -610,47 +540,20 @@ export const VideoEditingCircularGallery: React.FC<VideoEditingCircularGalleryPr
                         }`}>
                           <Play className="w-5 h-5 fill-white text-white ml-0.5" />
                         </div>
-                        <span className="text-[10px] font-extrabold text-white mt-1.5 drop-shadow-md">
-                          {isSelected ? 'উপরে চলছে' : 'উপরে চালান'}
-                        </span>
-                      </div>
-
-                      {/* Aspect Ratio Badge on Circle */}
-                      <div className="absolute top-2.5 left-1/2 -translate-x-1/2">
-                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold backdrop-blur-md border ${
-                          isPortrait
-                            ? 'bg-pink-950/85 text-pink-300 border-pink-500/40'
-                            : 'bg-sky-950/85 text-sky-300 border-sky-500/40'
-                        }`}>
-                          {isPortrait ? '৯:১৬' : '১৬:৯'}
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
-                        <span className="px-2 py-0.5 rounded-full bg-black/85 border border-white/20 text-[9px] font-extrabold text-purple-300 backdrop-blur-md">
-                          #{idx + 1}
-                        </span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Title and Badges */}
-                  <div className="mt-3 px-2 w-full">
-                    <p className={`text-sm font-bold truncate transition-colors ${
-                      isSelected ? 'text-purple-300 font-extrabold' : 'text-slate-200 group-hover:text-purple-300'
-                    }`}>
+                  {/* Title Only - Clean without software or extra text */}
+                  <div className="mt-3 px-2 w-full text-center">
+                    <p
+                      className={`text-sm font-bold truncate transition-colors ${
+                        isSelected ? 'text-purple-300 font-extrabold' : 'text-slate-200 group-hover:text-purple-300'
+                      }`}
+                      title={project.title}
+                    >
                       {project.title}
                     </p>
-                    <div className="mt-1 flex items-center justify-center gap-1.5 flex-wrap">
-                      <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-purple-950/60 text-purple-300 border border-purple-800/40">
-                        {project.toolsUsed?.[0] || 'Premiere Pro'}
-                      </span>
-                      {isSelected && (
-                        <span className="px-2 py-0.5 text-[10px] font-bold rounded-md bg-sky-900/60 text-sky-300 border border-sky-700/60">
-                          সক্রিয়
-                        </span>
-                      )}
-                    </div>
                   </div>
                 </div>
               );

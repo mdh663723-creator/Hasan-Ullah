@@ -164,7 +164,7 @@ export const Showcase: React.FC<ShowcaseProps> = ({
                 </button>
               )}
 
-              {project.aspectRatio && (
+              {project.aspectRatio && project.category !== 'video' && project.category !== 'graphic' && (
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border backdrop-blur-xs ${
                   project.id === 'proj-behance-256189277' || project.tags?.includes('CV Design')
                     ? 'bg-amber-400 text-slate-950 border-amber-300 font-extrabold shadow-sm'
@@ -190,7 +190,7 @@ export const Showcase: React.FC<ShowcaseProps> = ({
           )}
 
           {/* Bottom Image Metrics overlay */}
-          {project.metrics && (
+          {project.metrics && project.category !== 'video' && project.category !== 'graphic' && (
             <div className="absolute bottom-2.5 left-3.5 right-3.5 text-[11px] font-medium text-slate-300 truncate flex items-center gap-1.5 opacity-90">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
               <span>{project.metrics}</span>
@@ -205,20 +205,25 @@ export const Showcase: React.FC<ShowcaseProps> = ({
               {project.title}
             </h3>
 
-            <p className="mt-1.5 text-xs sm:text-sm text-slate-400 line-clamp-2 leading-relaxed">
-              {project.description}
-            </p>
+            {/* Video and Graphic projects only show the title as requested by user */}
+            {project.category !== 'video' && project.category !== 'graphic' && (
+              <>
+                <p className="mt-1.5 text-xs sm:text-sm text-slate-400 line-clamp-2 leading-relaxed">
+                  {project.description}
+                </p>
 
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {(project.toolsUsed && project.toolsUsed.length > 0 ? project.toolsUsed : project.tags).slice(0, 3).map((tool, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-0.5 text-[11px] font-medium text-slate-300 bg-slate-900 border border-slate-800 rounded-md group-hover:border-slate-700 transition-colors"
-                >
-                  {tool}
-                </span>
-              ))}
-            </div>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {(project.toolsUsed && project.toolsUsed.length > 0 ? project.toolsUsed : project.tags).slice(0, 3).map((tool, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-0.5 text-[11px] font-medium text-slate-300 bg-slate-900 border border-slate-800 rounded-md group-hover:border-slate-700 transition-colors"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Action Link Buttons */}
